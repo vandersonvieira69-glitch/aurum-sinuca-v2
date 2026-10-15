@@ -1,66 +1,103 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AURUM SINUCA V2</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>AURUM SINUCA REAL</title>
 <style>
-body{margin:0;background:#0a1a0a;color:#fff;font-family:Arial;text-align:center}
-canvas{background:#0d6b2e;border:6px solid #8B4513;margin:10px auto;display:block;max-width:95vw}
-#login{padding:20px} input{padding:10px;margin:5px} button{padding:10px 20px;background:gold;color:#000;border:none;border-radius:8px;font-weight:bold;cursor:pointer}
-#hud{display:flex;justify-content:space-around;padding:10px;background:#000a}
+*{margin:0;padding:0;box-sizing:border-box}body{background:#050a05;overflow:hidden;font-family:system-ui}
+#login{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(#1b2a1b,#050a05);z-index:10}
+.card{background:linear-gradient(180deg,#1e1e1e,#0f0f0f);border:2px solid #d4af37;border-radius:24px;padding:28px;width:92%;max-width:380px;text-align:center;color:#fff;box-shadow:0 20px 60px #000}
+.card h1{color:#d4af37;letter-spacing:3px;margin:10px 0}
+.card input{width:100%;padding:14px;margin:7px 0;border-radius:12px;border:1px solid #333;background:#191919;color:#fff;font-size:16px}
+.card button{width:100%;padding:15px;margin-top:12px;border:none;border-radius:14px;background:linear-gradient(180deg,#e8c765,#d4af37);font-weight:900;font-size:16px}
+#game{display:none;flex-direction:column;height:100vh}
+#hud{display:flex;justify-content:space-between;padding:10px 14px;color:#d4af37;font-weight:800;background:#0c0c0c;border-bottom:1px solid #222}
+canvas{flex:1;width:100%;touch-action:none;display:block}
+#controls{display:flex;gap:8px;padding:10px;background:#0c0c0c}
+#controls button{flex:1;padding:14px;border-radius:12px;border:none;font-weight:800}
+.b1{background:linear-gradient(#e8c765,#d4af37)}.b2{background:#2a2a2a;color:#fff}
+#forcaBar{height:8px;background:#222;margin:0 10px;border-radius:10px;overflow:hidden}
+#forcaFill{height:100%;width:0%;background:linear-gradient(90deg,#00ff88,#ffcc00,#ff0000);transition:.05s}
 </style>
 </head>
 <body>
-<div id="login">
-<h1>🎱 AURUM SINUCA V2</h1>
-<input id="lnome" placeholder="Nome no jogo"><br>
-<input id="llogin" placeholder="Login"><br>
-<input id="lsenha" type="password" placeholder="Senha"><br><br>
-<button onclick="fazerLogin()">ENTRAR</button>
-<button onclick="fazerRegistro()">REGISTRAR</button>
-<p id="msg"></p>
-</div>
-
-<div id="game" style="display:none">
-<div id="hud">
-<span id="p1">Player 1: 1000 - Branca</span>
-<span id="fila">Fila: 0</span>
-<span id="p2">Player 2: Aguardando</span>
-</div>
-<canvas id="mesa" width="800" height="400"></canvas><br>
-<button onclick="entrarFila()">JOGAR ONLINE</button>
-<button onclick="sairFila()">SAIR DA FILA</button>
-<div id="ranking"></div>
-</div>
-
-<script src="/socket.io/socket.io.js"></script>
+<div id="login"><div class="card"><div style="font-size:64px">🎱</div><h1>AURUM REAL</h1><p style="opacity:.6;margin-bottom:12px">Mesa real + tacada de arrasta</p><input id="nome" placeholder="Nome no jogo"><input id="loginI" placeholder="Login"><input id="senha" type="password" placeholder="Senha"><button onclick="registrar()">ENTRAR NA SINUCA</button><p id="msg" style="color:#ff6b6b;margin-top:10px"></p></div></div>
+<div id="game"><div id="hud"><span id="playerName">-</span><span>FILA: <b id="filaQ">0</b></span><span id="saldo">R$ 1000</span></div><canvas id="mesa" width="1000" height="550"></canvas><div id="forcaBar"><div id="forcaFill"></div></div><div id="controls"><button class="b1" onclick="entrarFila()">JOGAR ONLINE</button><button class="b2" onclick="sairFila()">SAIR</button><button class="b2" onclick="initMesa()">NOVO JOGO</button></div></div>
 <script>
-const socket=io(); let meuNome=""; let canvas=document.getElementById('mesa'); let ctx=canvas.getContext('2d');
-let bolas=[{x:600,y:200,cor:'#fff',vx:0,vy:0},{x:200,y:200,cor:'#ff0000',vx:0,vy:0},{x:230,y:185,cor:'#ffff00',vx:0,vy:0},{x:230,y:215,cor:'#0000ff',vx:0,vy:0}];
+let user=null,canvas=document.getElementById('mesa'),ctx=canvas.getContext('2d'),bolas=[],branca,arrastando=false,aim={x:0,y:0},power=0;
+function resize(){canvas.width=innerWidth;canvas.height=innerWidth*0.6; if(bolas.length) desenhaMesa();} window.addEventListener('resize',resize);
 
-function desenhar(){
- ctx.clearRect(0,0,800,400);
- ctx.fillStyle='#0d6b2e'; ctx.fillRect(0,0,800,400);
- bolas.forEach(b=>{ctx.beginPath();ctx.arc(b.x,b.y,15,0,Math.PI*2);ctx.fillStyle=b.cor;ctx.fill(); ctx.strokeStyle='#000';ctx.stroke(); b.x+=b.vx; b.y+=b.vy; b.vx*=0.98; b.vy*=0.98; if(b.x<15||b.x>785) b.vx*=-1; if(b.y<15||b.y>385) b.vy*=-1;});
- requestAnimationFrame(desenhar);
+async function registrar(){
+ let login=document.getElementById('loginI').value.trim(),senha=document.getElementById('senha').value.trim(),nome=document.getElementById('nome').value.trim()||login;
+ if(!login||!senha){document.getElementById('msg').innerText='Preencha login e senha';return;}
+ let r=await fetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({login,senha,nome})});let d=await r.json();
+ if(!d.ok){r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({login,senha})});d=await r.json();}
+ if(!d.ok){document.getElementById('msg').innerText=d.msg;return;}
+ user=d.user;user.login=login;document.getElementById('login').style.display='none';document.getElementById('game').style.display='flex';document.getElementById('playerName').innerText=user.nome;document.getElementById('saldo').innerText='R$ '+user.saldo;resize();initMesa();loop();setInterval(()=>fetch('/api/fila').then(r=>r.json()).then(d=>document.getElementById('filaQ').innerText=d.qtd),2000);
 }
-desenhar();
 
-canvas.addEventListener('click',e=>{
- let rect=canvas.getBoundingClientRect(); let mx=(e.clientX-rect.left)*800/rect.width; let my=(e.clientY-rect.top)*400/rect.height;
- let dx=mx-bolas[0].x; let dy=my-bolas[0].y; bolas[0].vx=dx*0.1; bolas[0].vy=dy*0.1;
-});
+function initMesa(){
+ bolas=[];let startX=canvas.width*0.68,startY=canvas.height*0.5,r=canvas.width*0.022;
+ let cores=[null,'#FFEB3B','#0D47A1','#E53935','#4A148C','#FF8F00','#2E7D32','#7F0000','#111111','#FFEB3B','#0D47A1','#E53935','#4A148C','#FF8F00','#2E7D32','#7F0000'];
+ for(let i=0;i<15;i++){
+  let row=Math.floor((Math.sqrt(8*i+1)-1)/2), col=i-row*(row+1)/2;
+  let x=startX+row*(r*1.92), y=startY+(col-row/2)*(r*2.15);
+  let num=[1,9,2,10,8,3,11,4,12,5,13,6,14,7,15][i];
+  bolas.push({x,y,vx:0,vy:0,r,num,cor:cores[num],striped:num>8});
+ }
+ branca={x:canvas.width*0.25,y:canvas.height*0.5,vx:0,vy:0,r,cor:'#FFFFFF',num:0,striped:false};bolas.push(branca);
+}
 
-function fazerRegistro(){socket.emit('register',{nome:lnome.value,login:llogin.value,senha:lsenha.value})}
-function fazerLogin(){socket.emit('login',{login:llogin.value,senha:lsenha.value})}
-socket.on('authOk',u=>{meuNome=u.nome; document.getElementById('login').style.display='none'; document.getElementById('game').style.display='block'; p1.innerText=u.nome+': '+u.pontos+' - '+u.faixa;})
-socket.on('authError',m=>{msg.innerText=m})
-function entrarFila(){socket.emit('joinOnlineQueue',{nome:meuNome})}
-function sairFila(){}
-socket.on('filaStatus',n=>{fila.innerText='Fila: '+n})
-socket.on('matchStart',d=>{alert('PARTIDA ENCONTRADA! '+d.p1.nome+' VS '+d.p2.nome+' - Divisão: '+d.divisao.nome); p1.innerText=d.p1.nome; p2.innerText=d.p2.nome;})
-socket.on('rankingAtualizado',lista=>{let h='<h3>Ranking</h3>';lista.slice(0,10).forEach((r,i)=>{h+=`${i+1}. ${r.name} - ${r.pontos} (${r.faixa}) - V:${r.v||0} D:${r.d||0}<br>`}); ranking.innerHTML=h;})
-socket.emit('getRanking');
+function desenhaMesa(){
+ let g=ctx.createLinearGradient(0,0,0,canvas.height);g.addColorStop(0,'#8D5E3C');g.addColorStop(1,'#4E2E1A');ctx.fillStyle=g;ctx.fillRect(0,0,canvas.width,canvas.height);
+ let g2=ctx.createRadialGradient(canvas.width/2,canvas.height/2,0,canvas.width/2,canvas.height/2,canvas.width);g2.addColorStop(0,'#1B8A2F');g2.addColorStop(1,'#0A4D14');ctx.fillStyle=g2;ctx.fillRect(18,18,canvas.width-36,canvas.height-36);
+ ctx.strokeStyle='rgba(255,255,255,0.07)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(canvas.width*0.25,18);ctx.lineTo(canvas.width*0.25,canvas.height-18);ctx.stroke();
+ ctx.beginPath();ctx.arc(canvas.width*0.25,canvas.height/2,8,0,Math.PI*2);ctx.stroke();
+ [[0,0],[canvas.width/2,0],[canvas.width,0],[0,canvas.height],[canvas.width/2,canvas.height],[canvas.width,canvas.height]].forEach(p=>{ctx.beginPath();ctx.fillStyle='#000';ctx.arc(p[0],p[1],canvas.width*0.032,0,Math.PI*2);ctx.fill();});
+}
+
+function drawBall(b){
+ ctx.save(); ctx.shadowColor='rgba(0,0,0,0.5)';ctx.shadowBlur=8;ctx.shadowOffsetY=4;
+ ctx.beginPath();ctx.fillStyle=b.cor;ctx.arc(b.x,b.y,b.r,0,Math.PI*2);ctx.fill();ctx.shadowColor='transparent';
+ if(b.num!==0){
+  if(b.striped){ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(b.x,b.y,b.r*0.95,0,Math.PI*2);ctx.fill();ctx.fillStyle=b.cor;ctx.fillRect(b.x-b.r,b.y-b.r*0.5,b.r*2,b.r);}
+  ctx.beginPath();ctx.fillStyle='#fff';ctx.arc(b.x,b.y,b.r*0.55,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle=b.num===8?'#fff':'#000';ctx.font=`${b.r*0.7}px bold Arial`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(b.num,b.x,b.y);
+  ctx.beginPath();ctx.fillStyle='rgba(255,255,255,0.55)';ctx.arc(b.x-b.r*0.3,b.y-b.r*0.3,b.r*0.22,0,Math.PI*2);ctx.fill();
+ }else{
+  ctx.beginPath();ctx.fillStyle='rgba(255,255,255,0.6)';ctx.arc(b.x-b.r*0.25,b.y-b.r*0.25,b.r*0.2,0,Math.PI*2);ctx.fill();
+ }
+ ctx.restore();
+}
+
+function loop(){
+ desenhaMesa();
+ if(arrastando){let dx=branca.x-aim.x,dy=branca.y-aim.y,powerLen=Math.hypot(dx,dy);power=Math.min(powerLen/12,18);document.getElementById('forcaFill').style.width=(power/18*100)+'%';
+  ctx.setLineDash([8,8]);ctx.strokeStyle='rgba(255,255,255,0.9)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(branca.x,branca.y);ctx.lineTo(branca.x+dx*2.5,branca.y+dy*2.5);ctx.stroke();ctx.setLineDash([]);
+  let ang=Math.atan2(dy,dx);let tx=branca.x-dx*0.2,ty=branca.y-dy*0.2;ctx.save();ctx.translate(tx,ty);ctx.rotate(ang);ctx.fillStyle='#F5DEB3';ctx.fillRect(-power*18-200, -3, 200,6);ctx.fillStyle='#111';ctx.fillRect(-power*18-200-8,-4,12,8);ctx.restore();
+ }
+ bolas.forEach(b=>{
+  b.x+=b.vx;b.y+=b.vy;b.vx*=0.988;b.vy*=0.988;if(Math.abs(b.vx)<0.02)b.vx=0;if(Math.abs(b.vy)<0.02)b.vy=0;
+  let minX=22+b.r,maxX=canvas.width-22-b.r,minY=22+b.r,maxY=canvas.height-22-b.r;
+  if(b.x<minX||b.x>maxX){b.vx*=-0.75;b.x=Math.max(minX,Math.min(maxX,b.x));}if(b.y<minY||b.y>maxY){b.vy*=-0.75;b.y=Math.max(minY,Math.min(maxY,b.y));}
+  let pockets=[[0,0],[canvas.width/2,0],[canvas.width,0],[0,canvas.height],[canvas.width/2,canvas.height],[canvas.width,canvas.height]];
+  for(let p of pockets){if(Math.hypot(b.x-p[0],b.y-p[1])<canvas.width*0.028){if(b===branca){b.x=canvas.width*0.25;b.y=canvas.height/2;b.vx=0;b.vy=0;}else{b.x=-100; b.vx=0;b.vy=0;}break;}}
+  drawBall(b);
+ });
+ for(let i=0;i<bolas.length;i++)for(let j=i+1;j<bolas.length;j++){let a=bolas[i],c=bolas[j];if(a.x<0||c.x<0)continue;let dx=c.x-a.x,dy=c.y-a.y,d=Math.hypot(dx,dy);if(d<a.r+c.r&&d>0){let nx=dx/d,ny=dy/d,tx=-ny,ty=nx;let v1n=a.vx*nx+a.vy*ny,v1t=a.vx*tx+a.vy*ty,v2n=c.vx*nx+c.vy*ny,v2t=c.vx*tx+c.vy*ty;let n1=v2n,n2=v1n;a.vx=n1*nx+v1t*tx;a.vy=n1*ny+v1t*ty;c.vx=n2*nx+v2t*tx;c.vy=n2*ny+v2t*ty;let over=(a.r+c.r-d)/2;a.x-=nx*over;a.y-=ny*over;c.x+=nx*over;c.y+=ny*over;}}
+ requestAnimationFrame(loop);
+}
+
+function getPos(e){let rect=canvas.getBoundingClientRect();let src=e.touches?e.touches[0]:e;return{x:(src.clientX-rect.left)*canvas.width/rect.width,y:(src.clientY-rect.top)*canvas.height/rect.height};}
+canvas.addEventListener('mousedown',e=>{let p=getPos(e);if(Math.hypot(p.x-branca.x,p.y-branca.y)<branca.r*2.5){arrastando=true;aim=p;}});
+canvas.addEventListener('mousemove',e=>{if(arrastando)aim=getPos(e);});
+canvas.addEventListener('mouseup',e=>{if(arrastando){let dx=branca.x-aim.x,dy=branca.y-aim.y;branca.vx=dx*0.18;branca.vy=dy*0.18;}arrastando=false;power=0;document.getElementById('forcaFill').style.width='0%';});
+canvas.addEventListener('touchstart',e=>{let p=getPos(e);if(Math.hypot(p.x-branca.x,p.y-branca.y)<branca.r*3.5){arrastando=true;aim=p;}},{passive:false});
+canvas.addEventListener('touchmove',e=>{if(arrastando){e.preventDefault();aim=getPos(e);}},{passive:false});
+canvas.addEventListener('touchend',e=>{if(arrastando){let dx=branca.x-aim.x,dy=branca.y-aim.y;branca.vx=dx*0.19;branca.vy=dy*0.19;}arrastando=false;power=0;document.getElementById('forcaFill').style.width='0%';});
+async function entrarFila(){if(!user)return;await fetch('/api/fila/entrar',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({login:user.login})});}
+async function sairFila(){if(!user)return;await fetch('/api/fila/sair',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({login:user.login})});}
+resize();
 </script>
 </body>
 </html>
