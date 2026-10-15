@@ -1,44 +1,55 @@
 const express = require('express');
+const cors = require('cors');
 const path = require('path');
 const app = express();
+app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(__dirname));
 
-let usuarios = {};
-let fila = [];
-let config = {
-  mesas: [{nome:'Bronze',entrada:10,premio:18},{nome:'Prata',entrada:50,premio:90},{nome:'Ouro',entrada:100,premio:180},{nome:'Diamante',entrada:250,premio:450}],
-  cores: ['#0f8bc0','#178a27','#c0392b','#6c3483','#111111','#1a5a4a'],
+let usuarios = [
+  {id:1, login:'joao123', nome:'João Nordestino', saldo:150, graduacao:'Branca', nivel:'Iniciante', v:12, d:4},
+  {id:2, login:'maria_sinuca', nome:'Maria Sinuca', saldo:80, graduacao:'Azul', nivel:'Iniciante', v:20, d:5},
+  {id:3, login:'carlos8ball', nome:'Carlos 8Ball', saldo:300, graduacao:'Roxa', nivel:'Interm.', v:45, d:12}
+];
+
+let valoresMesas = {
+  Branca:{entrada:10, premio:18},
+  Azul:{entrada:15, premio:25},
+  Amarela:{entrada:20, premio:32},
+  Laranja:{entrada:28, premio:45},
+  Verde:{entrada:35, premio:60},
+  Roxa:{entrada:50, premio:80},
+  Marrom:{entrada:75, premio:120},
+  Preta:{entrada:125, premio:200}
 };
 
-app.post('/api/register',(req,res)=>{
-  let {login,senha,nome}=req.body; login=(login||'').toLowerCase().trim();
-  if(!login||!senha) return res.json({ok:false,msg:'Preencha login e senha'});
-  if(usuarios[login]) return res.json({ok:false,msg:'Login já existe'});
-  usuarios[login]={senha,nome:nome||login,saldo:1000,nivel:1,xp:35,graduacao:'Branca',vitorias:0,derrotas:0};
-  res.json({ok:true,user:usuarios[login]});
-});
-app.post('/api/login',(req,res)=>{
-  let {login,senha}=req.body; login=(login||'').toLowerCase().trim();
-  let u=usuarios[login]; if(!u||u.senha!==senha) return res.json({ok:false,msg:'Login ou senha inválidos'});
-  res.json({ok:true,user:u});
-});
-app.post('/api/fila/entrar',(req,res)=>{let {login}=req.body; if(!fila.includes(login)) fila.push(login); res.json({ok:true,fila});});
-app.get('/api/fila',(req,res)=>res.json({fila}));
+app.get('/api/usuarios', (req,res)=> res.json(usuarios));
+app.get('/api/valores', (req,res)=> res.json(valoresMesas));
 
-// ADMIN
-app.post('/api/admin/login',(req,res)=>{
-  if(req.body.login==='admin'&&req.body.senha==='aurum123') return res.json({ok:true});
-  res.json({ok:false,msg:'Admin inválido'});
+app.post('/api/usuarios/:id/faixa', (req,res)=>{
+  let u = usuarios.find(x=>x.id==req.params.id);
+  if(u){
+    u.graduacao = req.body.faixa;
+    if(['Branca','Azul','Amarela'].includes(req.body.faixa)) u.nivel='Iniciante';
+    else if(['Laranja','Verde','Roxa'].includes(req.body.faixa)) u.nivel='Interm.';
+    else u.nivel='Elite';
+  }
+  res.json({ok:true});
 });
-app.get('/api/admin/usuarios',(req,res)=>res.json({usuarios,config}));
-app.post('/api/admin/usuario/edit',(req,res)=>{
-  let {login,campo,valor}=req.body; if(!usuarios[login]) return res.json({ok:false});
-  usuarios[login][campo]=campo==='saldo'||campo==='nivel'?Number(valor):valor; res.json({ok:true});
-});
-app.post('/api/admin/usuario/delete',(req,res)=>{delete usuarios[req.body.login]; res.json({ok:true});});
-app.post('/api/admin/config',(req,res)=>{config=req.body.config; res.json({ok:true,config});});
 
-app.get('/',(req,res)=>res.sendFile(path.join(__dirname,'index.html')));
-app.get('/admin',(req,res)=>res.sendFile(path.join(__dirname,'admin.html')));
-const PORT=process.env.PORT||3000; app.listen(PORT,()=>console.log('AURUM ON '+PORT));
+app.post('/api/usuarios/:id/excluir', (req,res)=>{
+  usuarios = usuarios.filter(x=>x.id!=req.params.id);
+  res.json({ok:true});
+});
+
+app.post('/api/valores', (req,res)=>{
+  valoresMesas = req.body;
+  res.json({ok:true});
+});
+
+app.get('*', (req,res)=>{
+  res.sendFile(path.join(__dirname,'index.html'));
+});
+
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, ()=> console.log('AURUM rodando na porta '+PORT));
