@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AURUM SINUCA V2</title>
+<style>
+body{margin:0;background:#0a1a0a;color:#fff;font-family:Arial;text-align:center}
+canvas{background:#0d6b2e;border:6px solid #8B4513;margin:10px auto;display:block;max-width:95vw}
+#login{padding:20px} input{padding:10px;margin:5px} button{padding:10px 20px;background:gold;color:#000;border:none;border-radius:8px;font-weight:bold;cursor:pointer}
+#hud{display:flex;justify-content:space-around;padding:10px;background:#000a}
+</style>
+</head>
+<body>
+<div id="login">
+<h1>🎱 AURUM SINUCA V2</h1>
+<input id="lnome" placeholder="Nome no jogo"><br>
+<input id="llogin" placeholder="Login"><br>
+<input id="lsenha" type="password" placeholder="Senha"><br><br>
+<button onclick="fazerLogin()">ENTRAR</button>
+<button onclick="fazerRegistro()">REGISTRAR</button>
+<p id="msg"></p>
+</div>
+
+<div id="game" style="display:none">
+<div id="hud">
+<span id="p1">Player 1: 1000 - Branca</span>
+<span id="fila">Fila: 0</span>
+<span id="p2">Player 2: Aguardando</span>
+</div>
+<canvas id="mesa" width="800" height="400"></canvas><br>
+<button onclick="entrarFila()">JOGAR ONLINE</button>
+<button onclick="sairFila()">SAIR DA FILA</button>
+<div id="ranking"></div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+const socket=io(); let meuNome=""; let canvas=document.getElementById('mesa'); let ctx=canvas.getContext('2d');
+let bolas=[{x:600,y:200,cor:'#fff',vx:0,vy:0},{x:200,y:200,cor:'#ff0000',vx:0,vy:0},{x:230,y:185,cor:'#ffff00',vx:0,vy:0},{x:230,y:215,cor:'#0000ff',vx:0,vy:0}];
+
+function desenhar(){
+ ctx.clearRect(0,0,800,400);
+ ctx.fillStyle='#0d6b2e'; ctx.fillRect(0,0,800,400);
+ bolas.forEach(b=>{ctx.beginPath();ctx.arc(b.x,b.y,15,0,Math.PI*2);ctx.fillStyle=b.cor;ctx.fill(); ctx.strokeStyle='#000';ctx.stroke(); b.x+=b.vx; b.y+=b.vy; b.vx*=0.98; b.vy*=0.98; if(b.x<15||b.x>785) b.vx*=-1; if(b.y<15||b.y>385) b.vy*=-1;});
+ requestAnimationFrame(desenhar);
+}
+desenhar();
+
+canvas.addEventListener('click',e=>{
+ let rect=canvas.getBoundingClientRect(); let mx=(e.clientX-rect.left)*800/rect.width; let my=(e.clientY-rect.top)*400/rect.height;
+ let dx=mx-bolas[0].x; let dy=my-bolas[0].y; bolas[0].vx=dx*0.1; bolas[0].vy=dy*0.1;
+});
+
+function fazerRegistro(){socket.emit('register',{nome:lnome.value,login:llogin.value,senha:lsenha.value})}
+function fazerLogin(){socket.emit('login',{login:llogin.value,senha:lsenha.value})}
+socket.on('authOk',u=>{meuNome=u.nome; document.getElementById('login').style.display='none'; document.getElementById('game').style.display='block'; p1.innerText=u.nome+': '+u.pontos+' - '+u.faixa;})
+socket.on('authError',m=>{msg.innerText=m})
+function entrarFila(){socket.emit('joinOnlineQueue',{nome:meuNome})}
+function sairFila(){}
+socket.on('filaStatus',n=>{fila.innerText='Fila: '+n})
+socket.on('matchStart',d=>{alert('PARTIDA ENCONTRADA! '+d.p1.nome+' VS '+d.p2.nome+' - Divisão: '+d.divisao.nome); p1.innerText=d.p1.nome; p2.innerText=d.p2.nome;})
+socket.on('rankingAtualizado',lista=>{let h='<h3>Ranking</h3>';lista.slice(0,10).forEach((r,i)=>{h+=`${i+1}. ${r.name} - ${r.pontos} (${r.faixa}) - V:${r.v||0} D:${r.d||0}<br>`}); ranking.innerHTML=h;})
+socket.emit('getRanking');
+</script>
+</body>
+</html>
