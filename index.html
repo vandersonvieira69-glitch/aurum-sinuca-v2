@@ -1,7 +1,231 @@
 <!DOCTYPE html>
-<html>
-<head><meta charset="utf-8"><title>AURUM SINUCA</title></head>
-<body style="background:#000;color:#d4af37;display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial">
-<h1>AURUM SINUCA - TESTE OK</h1>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>AURUM SINUCA - Nordeste</title>
+<meta name="theme-color" content="#d4af37">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif}
+body{background:#000;color:#fff;overflow:hidden;height:100vh;width:100vw}
+/* LOGIN */
+#login{position:fixed;inset:0;z-index:100;background:radial-gradient(ellipse at top,#1a2f6e,#000 85%);display:flex;align-items:center;justify-content:center;padding:20px}
+.box{width:100%;max-width:380px;background:#121212;border:2px solid #d4af37;border-radius:20px;padding:24px;text-align:center;box-shadow:0 0 25px rgba(212,175,55,.35)}
+.box h1{color:#d4af37;font-size:30px;font-weight:900}.box h1 span{color:#fff}
+.box.sub{color:#888;font-size:12px;margin:10px 0 18px}
+.inp{width:100%;padding:15px;margin-bottom:12px;border-radius:12px;border:1px solid #333;background:#000;color:#fff;font-size:16px;outline:none}
+.inp:focus{border-color:#d4af37}
+.btn{width:100%;padding:15px;border-radius:12px;border:none;background:#d4af37;color:#000;font-weight:900;font-size:16px;cursor:pointer}
+.btn:active{transform:scale(.98)}
+/* APP */
+#app{position:fixed;inset:0;display:none;flex-direction:column;background:#070707}
+.topo{height:60px;background:#000;border-bottom:2px solid #d4af37;display:flex;align-items:center;justify-content:space-between;padding:0 14px}
+.logo{font-weight:900;color:#d4af37;font-size:22px}.logo span{color:#fff}
+.tabs{display:flex;gap:6px;padding:8px;background:#0d0d0d}
+.tab{flex:1;padding:11px;border-radius:10px;border:1px solid #222;background:#151515;color:#777;font-weight:800;text-align:center;cursor:pointer;font-size:13px}
+.tab.on{background:#d4af37;color:#000;border-color:#d4af37}
+.lista{flex:1;overflow:auto;padding:12px}
+.card{background:#171717;border:1px solid #252525;border-radius:16px;padding:14px;margin-bottom:12px}
+.card h3{color:#d4af37;font-size:14px;margin-bottom:4px}
+.card p{color:#888;font-size:12px}
+/* GAME */
+#game{position:fixed;inset:0;display:none;flex-direction:column;background:#001e3d;z-index:50}
+.hud{height:52px;background:#000;border-bottom:2px solid #d4af37;display:flex;align-items:center;gap:10px;padding:0 12px;font-size:13px}
+.wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:8px;position:relative;overflow:hidden}
+canvas{width:100%;max-width:980px;aspect-ratio:1.9/1;background:#0e8ac0;border:12px solid #4a1a0f;border-radius:12px;box-shadow:0 0 0 2px #000,0 0 0 5px #d4af37,touch-action:none}
+#taco{position:absolute;height:10px;background:linear-gradient(90deg,#f5d9a8,#c19a6b 50%,#7a4a2e);border-radius:5px;transform-origin:left center;display:none;pointer-events:none;z-index:10;box-shadow:0 1px 4px rgba(0,0,0,.6)}
+.bar{height:26px;background:#0a0a0a;border-top:1px solid #222;display:flex;align-items:center;padding:0 10px;gap:8px}
+.fill{height:10px;flex:1;background:#111;border-radius:10px;overflow:hidden;border:1px solid #222}
+#fill{height:100%;width:0%;background:linear-gradient(90deg,#00ff00,#ffff00,#ff0000);border-radius:10px;transition:width.05s}
+</style>
+</head>
+<body>
+
+<div id="login">
+  <div class="box">
+    <h1>AURUM <span>SINUCA</span></h1>
+    <div class="sub">Plataforma Oficial do Nordeste - Entre para jogar</div>
+    <input id="loginInput" class="inp" placeholder="Seu login (ex: joao123)">
+    <input id="nomeInput" class="inp" placeholder="Seu nome">
+    <button class="btn" onclick="entrar()">ENTRAR NA PLATAFORMA</button>
+    <div style="color:#555;font-size:10px;margin-top:12px">Seus dados ficam salvos no celular</div>
+  </div>
+</div>
+
+<div id="app">
+  <div class="topo"><div class="logo">AURUM <span>SINUCA</span></div><button class="btn" style="width:auto;padding:9px 16px;font-size:13px" onclick="abrirJogo()">JOGAR AGORA</button></div>
+  <div class="tabs">
+    <div class="tab on" onclick="trocaTab(0,this)">INICIANTE</div>
+    <div class="tab" onclick="trocaTab(1,this)">INTERMEDIÁRIO</div>
+    <div class="tab" onclick="trocaTab(2,this)">ELITE</div>
+  </div>
+  <div class="lista" id="lista"></div>
+</div>
+
+<div id="game">
+  <div class="hud">
+    <span>👤 <b id="hNome" style="color:#d4af37">--</b></span>
+    <span>🎯 <b id="hFaixa">Branca</b></span>
+    <button onclick="voltar()" style="margin-left:auto;padding:7px 14px;border-radius:8px;border:none;background:#fff;color:#000;font-weight:900;cursor:pointer">SAIR</button>
+  </div>
+  <div class="wrap">
+    <div id="taco"></div>
+    <canvas id="mesa" width="1000" height="526"></canvas>
+  </div>
+  <div class="bar">
+    <span style="color:#d4af37;font-size:10px;font-weight:800">FORÇA</span>
+    <div class="fill"><div id="fill"></div></div>
+    <span style="color:#666;font-size:10px">MIRA E SOLTA</span>
+  </div>
+</div>
+
+<script>
+let nome=localStorage.getItem('nome')||'', login=localStorage.getItem('login')||'', faixa=localStorage.getItem('faixa')||'Branca';
+document.getElementById('loginInput').value=login; document.getElementById('nomeInput').value=nome;
+if(nome) document.getElementById('hNome').innerText=nome;
+
+function entrar(){
+ let l=document.getElementById('loginInput').value.trim();
+ let n=document.getElementById('nomeInput').value.trim();
+ if(!l||!n){alert('Digite login e nome');return;}
+ localStorage.setItem('login',l); localStorage.setItem('nome',n);
+ nome=n; login=l;
+ document.getElementById('login').style.display='none';
+ document.getElementById('app').style.display='flex';
+ document.getElementById('hNome').innerText=n;
+ render();
+}
+
+let torneios=[
+ [{f:'Branca',p:18},{f:'Azul',p:25},{f:'Amarela',p:32}],
+ [{f:'Laranja',p:45},{f:'Verde',p:60},{f:'Roxa',p:80}],
+ [{f:'Marrom',p:120},{f:'Preta',p:200}]
+];
+let aba=0;
+function render(){
+ let el=document.getElementById('lista'); el.innerHTML='';
+ torneios[aba].forEach(t=>{
+  el.innerHTML+=`<div class="card"><h3>TORNEIO FAIXA ${t.f}</h3><p>Premiação R$ ${t.p} | Pódio com 2 terceiros | 16 jogadores</p><button class="btn" style="margin-top:10px" onclick="abrirJogo('${t.f}')">ENTRAR NA MESA - R$ ${t.p}</button></div>`;
+ });
+ document.getElementById('hFaixa').innerText=faixa;
+}
+function trocaTab(i,el){aba=i;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));el.classList.add('on');render();}
+function abrirJogo(f){if(f){faixa=f;localStorage.setItem('faixa',faixa);} document.getElementById('hNome').innerText=nome||'Jogador'; document.getElementById('hFaixa').innerText=faixa; document.getElementById('app').style.display='none'; document.getElementById('game').style.display='flex'; init(); }
+function voltar(){document.getElementById('game').style.display='none'; document.getElementById('app').style.display='flex'; render();}
+
+// JOGO SINUCA
+let canvas=document.getElementById('mesa'), ctx=canvas.getContext('2d');
+let bolas=[], branca, mirando=false, aim={x:0,y:0};
+
+function init(){
+ bolas=[]; let W=canvas.width,H=canvas.height,R=W*0.026;
+ let sx=W*0.72,sy=H*0.5;
+ let cores=['#ffcc00','#0050ff','#ff0000','#800080','#ff8800','#00aa00','#8b0000','#000','#ffcc00','#0050ff','#ff0000','#800080','#ff8800','#00aa00','#8b0000'];
+ for(let i=0;i<15;i++){
+  let row=Math.floor((Math.sqrt(8*i+1)-1)/2), col=i-row*(row+1)/2;
+  let x=sx+row*R*2.08, y=sy+(col-row/2)*R*2.18;
+  bolas.push({x,y,vx:0,vy:0,r:R,num:i+1,cor:cores[i],stripe:i>=8,caida:false,scale:1});
+ }
+ branca={x:W*0.25,y:H*0.5,vx:0,vy:0,r:R,num:0,cor:'#fff',caida:false,scale:1};
+ bolas.push(branca);
+}
+
+function drawMesa(){
+ let W=canvas.width,H=canvas.height;
+ ctx.fillStyle='#4a1a0f'; ctx.fillRect(0,0,W,H);
+ ctx.fillStyle='#0e8ac0'; ctx.fillRect(12,12,W-24,H-24);
+ // 6 caçapas REDONDAS grandes estilo 8 Ball Pool
+ [[0,0],[W/2,0],[W,0],[0,H],[W/2,H],[W,H]].forEach(p=>{
+  ctx.beginPath(); ctx.fillStyle='#000'; ctx.arc(p[0],p[1],32,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.strokeStyle='#1a1a1a'; ctx.lineWidth=6; ctx.arc(p[0],p[1],28,0,Math.PI*2); ctx.stroke();
+  ctx.beginPath(); ctx.strokeStyle='#d4af37'; ctx.lineWidth=1.2; ctx.arc(p[0],p[1],26,0,Math.PI*2); ctx.stroke();
+ });
+}
+
+function drawBola(b){
+ if(b.x<0) return;
+ ctx.save(); ctx.translate(b.x,b.y); ctx.scale(b.scale,b.scale);
+ let g=ctx.createRadialGradient(-b.r*0.25,-b.r*0.25,b.r*0.1,0,0,b.r);
+ if(b.num===0){ ctx.fillStyle='#fff'; } else { g.addColorStop(0,'#fff'); g.addColorStop(0.3,b.cor); g.addColorStop(1,'#111'); ctx.fillStyle=g; }
+ ctx.beginPath(); ctx.arc(0,0,b.r,0,Math.PI*2); ctx.fill();
+ if(b.num!==0){
+  if(b.stripe){ ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(0,0,b.r,0,Math.PI*2); ctx.fill(); ctx.fillStyle=b.cor; ctx.fillRect(-b.r,-b.r*0.42,b.r*2,b.r*0.84); }
+  ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(0,0,b.r*0.5,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#000'; ctx.font=`900 ${b.r*0.58}px Arial`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(b.num,0,1);
+ }
+ ctx.restore();
+}
+
+function loop(){
+ drawMesa();
+ let tacoEl=document.getElementById('taco');
+ let fillEl=document.getElementById('fill');
+ if(mirando){
+  let dx=branca.x-aim.x, dy=branca.y-aim.y;
+  let dist=Math.hypot(dx,dy);
+  let forc=Math.min(dist/7,30);
+  fillEl.style.width=(forc/30*100)+'%';
+  let ang=Math.atan2(dy,dx);
+  // taco colado na branca
+  tacoEl.style.display='block';
+  tacoEl.style.left=branca.x+'px';
+  tacoEl.style.top=(branca.y-5)+'px';
+  tacoEl.style.width=(190+forc*7)+'px';
+  tacoEl.style.transform=`rotate(${ang}rad)`;
+  // linha de mira + bolinha fantasma
+  ctx.setLineDash([12,10]); ctx.strokeStyle='rgba(255,255,255,.9)'; ctx.lineWidth=1.2;
+  ctx.beginPath(); ctx.moveTo(branca.x,branca.y); ctx.lineTo(branca.x+dx*4.5,branca.y+dy*4.5); ctx.stroke(); ctx.setLineDash([]);
+  ctx.beginPath(); ctx.strokeStyle='rgba(255,255,255,.5)'; ctx.lineWidth=1; ctx.arc(branca.x+dx*4.5,branca.y+dy*4.5,branca.r,0,Math.PI*2); ctx.stroke();
+ } else {
+  tacoEl.style.display='none'; fillEl.style.width='0%';
+ }
+ // fisica
+ bolas.forEach(b=>{
+  if(b.x<0) return;
+  b.x+=b.vx; b.y+=b.vy;
+  b.vx*=0.992; b.vy*=0.992;
+  if(Math.abs(b.vx)<0.02) b.vx=0; if(Math.abs(b.vy)<0.02) b.vy=0;
+  if(b.x<12+b.r||b.x>canvas.width-12-b.r) b.vx*=-0.82;
+  if(b.y<12+b.r||b.y>canvas.height-12-b.r) b.vy*=-0.82;
+  // caçapa
+  let pockets=[[0,0],[canvas.width/2,0],[canvas.width,0],[0,canvas.height],[canvas.width/2,canvas.height],[canvas.width,canvas.height]];
+  for(let p of pockets){
+   if(Math.hypot(b.x-p[0],b.y-p[1])<29){
+    if(b===branca){
+     setTimeout(()=>{b.x=canvas.width*0.25;b.y=canvas.height*0.5;b.vx=0;b.vy=0;b.scale=1;b.caida=false;},400);
+     b.caida=true;
+    } else b.caida=true;
+   }
+  }
+  if(b.caida) b.scale*=0.86;
+  if(b.scale<0.1) b.x=-100;
+  if(b.x>=0) drawBola(b);
+ });
+ // colisão
+ for(let i=0;i<bolas.length;i++) for(let j=i+1;j<bolas.length;j++){
+  let a=bolas[i], b=bolas[j]; if(a.x<0||b.x<0) continue;
+  let dx=b.x-a.x, dy=b.y-a.y, d=Math.hypot(dx,dy);
+  if(d<a.r+b.r && d>0){
+   let nx=dx/d, ny=dy/d;
+   let v1n=a.vx*nx+a.vy*ny, v2n=b.vx*nx+b.vy*ny;
+   let tx=-ny, ty=nx; let v1t=a.vx*tx+a.vy*ty, v2t=b.vx*tx+b.vy*ty;
+   a.vx=v2n*nx+v1t*tx; a.vy=v2n*ny+v1t*ty;
+   b.vx=v1n*nx+v2t*tx; b.vy=v1n*ny+v2t*ty;
+   let over=(a.r+b.r-d)/2; a.x-=nx*over; a.y-=ny*over; b.x+=nx*over; b.y+=ny*over;
+  }
+ }
+ requestAnimationFrame(loop);
+}
+
+function getPos(e){ let r=canvas.getBoundingClientRect(); let p=e.touches?e.touches[0]:e; return {x:(p.clientX-r.left)*canvas.width/r.width, y:(p.clientY-r.top)*canvas.height/r.height}; }
+canvas.addEventListener('mousedown',e=>{ let p=getPos(e); if(Math.hypot(p.x-branca.x,p.y-branca.y)<60){ mirando=true; aim=p; }});
+canvas.addEventListener('mousemove',e=>{ if(mirando) aim=getPos(e);});
+canvas.addEventListener('mouseup',()=>{ if(mirando){ let dx=branca.x-aim.x, dy=branca.y-aim.y; branca.vx=dx*0.28; branca.vy=dy*0.28; } mirando=false;});
+canvas.addEventListener('touchstart',e=>{ let p=getPos(e); if(Math.hypot(p.x-branca.x,p.y-branca.y)<80){ mirando=true; aim=p; e.preventDefault(); }},{passive:false});
+canvas.addEventListener('touchmove',e=>{ if(mirando){ aim=getPos(e); e.preventDefault(); }},{passive:false});
+canvas.addEventListener('touchend',()=>{ if(mirando){ let dx=branca.x-aim.x, dy=branca.y-aim.y; branca.vx=dx*0.32; branca.vy=dy*0.32; } mirando=false;});
+
+render(); init(); loop();
+</script>
 </body>
 </html>
