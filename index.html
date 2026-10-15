@@ -2,105 +2,106 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>AURUM SINUCA - Premium Casino</title>
+<title>AURUM SINUCA - Premium</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#040608;color:#fff;font-family:'Inter',sans-serif;overflow:hidden}
-/* LOGIN PREMIUM */
-#login{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse at top,#1d331d 0%,#0a0e0a 50%,#000 100%);z-index:20;padding:14px}
-.letreiro{position:relative;text-align:center;margin-bottom:16px;z-index:2}
-.letreiro.borda{border:1.5px solid #d4af37;padding:14px 26px;background:linear-gradient(180deg,rgba(18,18,18,.96),rgba(0,0,0,.98));box-shadow:0 0 35px rgba(212,175,55,.45),inset 0 0 22px rgba(212,175,55,.12)}
-.letreiro h1{font-family:'Cinzel',serif;font-weight:900;font-size:40px;line-height:.9;letter-spacing:3px;background:linear-gradient(180deg,#fff7c8,#e8c765 30%,#d4af37 60%,#8a6b1e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 20px rgba(212,175,55,.9));animation:neon 2.2s infinite alternate}
-@keyframes neon{from{filter:drop-shadow(0 0 10px rgba(212,175,55,.6))}to{filter:drop-shadow(0 0 30px rgba(212,175,55,1))}}
+#login{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse at top,#1d331d 0%,#0a0e0a 50%,#000 100%);z-index:20;padding:14px;overflow-y:auto}
+.letreiro{text-align:center;margin-bottom:16px;z-index:2}
+.letreiro.borda{border:1.5px solid #d4af37;padding:14px 26px;background:linear-gradient(180deg,rgba(18,18,18,.96),rgba(0,0,0,.98));box-shadow:0 0 35px rgba(212,175,55,.45)}
+.letreiro h1{font-family:'Cinzel',serif;font-weight:900;font-size:40px;line-height:.9;letter-spacing:3px;background:linear-gradient(180deg,#fff7c8,#e8c765 30%,#d4af37 60%,#8a6b1e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 20px rgba(212,175,55,.9))}
 .letreiro small{display:block;margin-top:8px;letter-spacing:4px;font-size:10px;color:#d4af37}
-.letreiro.sub{margin-top:8px;font-size:11px;letter-spacing:1.5px;opacity:.7}
+.sub{margin-top:8px;font-size:11px;letter-spacing:1.5px;opacity:.7;color:#fff}
 .card{width:100%;max-width:390px;background:linear-gradient(180deg,rgba(26,26,26,.97),rgba(10,10,10,.99));border:1px solid rgba(212,175,55,.35);border-radius:20px;padding:20px;box-shadow:0 20px 80px #000;z-index:2}
 .badges{display:flex;justify-content:center;gap:6px;margin-bottom:12px;flex-wrap:wrap}
 .badge{font-size:9px;padding:5px 8px;border-radius:20px;border:1px solid rgba(212,175,55,.3);background:rgba(212,175,55,.08);color:#d4af37}
 .inputBox{position:relative;margin:8px 0}
 .inputBox input{width:100%;padding:14px 44px 14px 14px;border-radius:12px;border:1px solid #2a2a2a;background:#111;color:#fff;font-size:15px;outline:none}
 .inputBox input:focus{border-color:#d4af37}
-.eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:10px;border:1px solid #2a2a2a;background:#1e1e1e;color:#d4af37;cursor:pointer}
+.eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:10px;border:1px solid #2a2a2a;background:#1e1e1e;color:#d4af37;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .botoes{display:flex;gap:10px;margin-top:14px}
 .btn{flex:1;padding:14px;border:none;border-radius:12px;font-weight:800;font-size:13px;cursor:pointer}
 .btnC{background:transparent;color:#fff;border:1px solid #3a3a3a}.btnE{background:linear-gradient(180deg,#f3d57a,#d4af37);color:#000;box-shadow:0 8px 24px rgba(212,175,55,.35)}
-#msg{margin-top:10px;min-height:18px;font-size:12px;text-align:center;color:#ff8a8a}
-
-/* GAME LUXO */
+#msg{margin-top:12px;min-height:18px;font-size:13px;text-align:center;color:#ff8a8a;font-weight:600}
 #game{display:none;flex-direction:column;height:100vh;background:radial-gradient(ellipse at center,#0e1a0e,#040608)}
-#topBar{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:linear-gradient(180deg,#1a1a1a,#0a0a0a);border-bottom:1px solid rgba(212,175,55,.25);box-shadow:0 4px 20px rgba(0,0,0,.8)}
-.pill{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:20px;background:linear-gradient(180deg,#1e1e1e,#111);border:1px solid rgba(212,175,55,.25);font-size:11px;font-weight:700;color:#d4af37}
+#topBar{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:linear-gradient(180deg,#1a1a1a,#0a0a0a);border-bottom:1px solid rgba(212,175,55,.25)}
+.pill{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:20px;background:#111;border:1px solid rgba(212,175,55,.25);font-size:11px;font-weight:700;color:#d4af37}
 .pill b{color:#fff}
 .pill.saldo{background:linear-gradient(180deg,#2a2310,#1a160a);border-color:#d4af37;color:#f3d57a}
-#mesaWrap{flex:1;position:relative;display:flex;align-items:center;justify-content:center;padding:8px;background:radial-gradient(circle at center,rgba(212,175,55,.08),transparent 60%)}
-canvas{width:100%;max-width:1100px;aspect-ratio:2/1.05;border-radius:18px;box-shadow:0 0 0 10px #3e2412,0 0 0 12px #8a5a2e,0 0 0 14px #d4af37,0 20px 80px rgba(0,0,0,.9),0 0 60px rgba(212,175,55,.15);touch-action:none}
-#forcaWrap{padding:0 14px 6px;display:flex;align-items:center;gap:10px;background:linear-gradient(180deg,#0f0f0f,#080808)}
-#forcaWrap span{font-size:9px;letter-spacing:1px;color:#d4af37}
+#mesaWrap{flex:1;position:relative;display:flex;align-items:center;justify-content:center;padding:8px}
+canvas{width:100%;max-width:1100px;aspect-ratio:2/1.05;border-radius:18px;box-shadow:0 0 0 10px #3e2412,0 0 0 12px #8a5a2e,0 0 0 14px #d4af37,0 20px 80px rgba(0,0,0,.9);touch-action:none}
+#forcaWrap{padding:0 14px 6px;display:flex;align-items:center;gap:10px;background:#0f0f0f}
 #forcaBar{flex:1;height:10px;background:#1a1a1a;border-radius:20px;overflow:hidden;border:1px solid #2a2a2a}
-#forcaFill{height:100%;width:0%;background:linear-gradient(90deg,#00ff88,#ffe600,#ff3c00);box-shadow:0 0 10px currentColor}
-#controls{display:flex;gap:8px;padding:10px;background:linear-gradient(180deg,#141414,#080808);border-top:1px solid rgba(212,175,55,.18)}
-.cBtn{flex:1;padding:13px;border-radius:12px;border:none;font-weight:900;font-size:12px;letter-spacing:.5px;cursor:pointer}
-.cBtn.gold{background:linear-gradient(180deg,#f3d57a,#d4af37);color:#000;box-shadow:0 6px 18px rgba(212,175,55,.3)}
-.cBtn.dark{background:#1e1e1e;color:#fff;border:1px solid #2e2e2e}
-#vsBar{display:flex;justify-content:center;align-items:center;gap:14px;padding:6px;background:rgba(0,0,0,.6);border-bottom:1px solid rgba(212,175,55,.15);font-size:11px;font-weight:800;letter-spacing:1px}
-.dot{width:8px;height:8px;border-radius:50%;background:#00ff88;box-shadow:0 0 8px #00ff88;animation:blink 1.5s infinite}
-@keyframes blink{50%{opacity:.3}}
+#forcaFill{height:100%;width:0%;background:linear-gradient(90deg,#00ff88,#ffe600,#ff3c00)}
+#controls{display:flex;gap:8px;padding:10px;background:#080808;border-top:1px solid rgba(212,175,55,.18)}
+.cBtn{flex:1;padding:13px;border-radius:12px;border:none;font-weight:900;font-size:12px;cursor:pointer}
+.cBtn.gold{background:linear-gradient(180deg,#f3d57a,#d4af37);color:#000}.cBtn.dark{background:#1e1e1e;color:#fff;border:1px solid #2e2e2e}
 </style>
 </head>
 <body>
 <div id="login">
 <div class="letreiro"><div class="borda"><h1>AURUM<br>SINUCA</h1><small>LIVE POOL CASINO • REAL MONEY</small></div><div class="sub">💎 MESA PREMIUM • PIX INSTANTÂNEO • 100% SEGURO</div></div>
 <div class="card">
-<div class="badges"><div class="badge">🔒 SSL</div><div class="badge">⚡ PIX</div><div class="badge">🏆 RANKING REAL</div><div class="badge">✅ 18+</div></div>
-<div class="inputBox"><input id="nome" placeholder="Apelido na mesa"></div>
-<div class="inputBox"><input id="loginI" placeholder="Login"></div>
-<div class="inputBox"><input id="senha" type="password" placeholder="Senha"><button class="eye" onclick="toggleSenha()">👁️</button></div>
-<div class="botoes"><button class="btn btnC" onclick="cadastrar()">CADASTRAR</button><button class="btn btnE" onclick="entrar()">ENTRAR NO CASSINO</button></div>
-<p id="msg"></p>
+<div class="badges"><div class="badge">🔒 SSL</div><div class="badge">⚡ PIX</div><div class="badge">🏆 RANKING</div><div class="badge">✅ 18+</div></div>
+<div class="inputBox"><input id="nome" placeholder="Apelido na mesa" value="Vander"></div>
+<div class="inputBox"><input id="loginI" placeholder="Login" value="vander"></div>
+<div class="inputBox"><input id="senha" type="password" placeholder="Senha" value="123456"><button class="eye" type="button" onclick="toggleSenha()" id="btnEye">👁️</button></div>
+<div class="botoes"><button class="btn btnC" type="button" onclick="cadastrar()">CADASTRAR</button><button class="btn btnE" type="button" onclick="entrar()">ENTRAR NO CASSINO</button></div>
+<div id="msg"></div>
 <div style="margin-top:12px;display:flex;justify-content:space-between;font-size:9px;opacity:.45"><span>💳 PIX • CARTÃO</span><span>🔐 ANTI-FRAUDE</span><span>💰 SAQUE RÁPIDO</span></div>
 </div>
-<div style="margin-top:14px;font-size:9px;opacity:.3;letter-spacing:1px">18+ • JOGUE COM RESPONSABILIDADE</div>
 </div>
 
 <div id="game">
-<div id="topBar">
-<div class="pill">👤 <b id="playerName">-</b></div>
-<div class="pill saldo">💰 <b id="saldo">R$ 1.000</b></div>
-<div class="pill">🎱 FILA: <b id="filaQ">0</b></div>
-</div>
-<div id="vsBar"><div class="dot"></div> AO VIVO • <span id="vsText">AGUARDANDO ADVERSÁRIO</span> • MESA PREMIUM AURUM</div>
+<div id="topBar"><div class="pill">👤 <b id="playerName">-</b></div><div class="pill saldo">💰 <b id="saldo">R$ 1.000</b></div><div class="pill">🎱 FILA: <b id="filaQ">0</b></div></div>
 <div id="mesaWrap"><canvas id="mesa" width="1200" height="630"></canvas></div>
-<div id="forcaWrap"><span>FORÇA</span><div id="forcaBar"><div id="forcaFill"></div></div><span id="forcaTxt">0%</span></div>
-<div id="controls"><button class="cBtn dark" onclick="sairFila()">SAIR DA FILA</button><button class="cBtn gold" onclick="entrarFila()">💎 JOGAR VALENDO R$ 10</button><button class="cBtn dark" onclick="initMesa()">🔄 NOVA PARTIDA</button></div>
+<div id="forcaWrap"><span style="font-size:9px;color:#d4af37">FORÇA</span><div id="forcaBar"><div id="forcaFill"></div></div><span id="forcaTxt" style="font-size:10px;color:#d4af37">0%</span></div>
+<div id="controls"><button class="cBtn dark" onclick="sairFila()">SAIR</button><button class="cBtn gold" onclick="entrarFila()">💎 JOGAR R$10</button><button class="cBtn dark" onclick="initMesa()">🔄 NOVA</button></div>
 </div>
 
 <script>
 let user=null,canvas=document.getElementById('mesa'),ctx=canvas.getContext('2d'),bolas=[],branca,arrastando=false,aim={x:0,y:0};
-function toggleSenha(){let i=document.getElementById('senha');i.type=i.type==='password'?'text':'password';}
-function resize(){let w=canvas.parentElement.clientWidth-16;canvas.style.width=w+'px';canvas.width=w*2;canvas.height=w*1.05;if(bolas.length) desenhaMesa();}window.addEventListener('resize',resize);
-async function cadastrar(){let l=document.getElementById('loginI').value.trim(),s=document.getElementById('senha').value.trim(),n=document.getElementById('nome').value.trim()||l;if(!l||!s){msg('Preencha login e senha');return;}msg('Criando conta VIP...');let r=await fetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({login:l,senha:s,nome:n})});let d=await r.json();if(!d.ok){msg(d.msg);return;}user=d.user;user.login=l.toLowerCase();logado();}
-async function entrar(){let l=document.getElementById('loginI').value.trim(),s=document.getElementById('senha').value.trim();if(!l||!s){msg('Preencha login e senha');return;}msg('Abrindo cassino...');let r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({login:l,senha:s})});let d=await r.json();if(!d.ok){msg(d.msg);return;}user=d.user;user.login=l.toLowerCase();logado();}
-function msg(t){document.getElementById('msg').innerText=t;}
-function logado(){document.getElementById('login').style.display='none';document.getElementById('game').style.display='flex';document.getElementById('playerName').innerText=user.nome;document.getElementById('saldo').innerText='R$ '+user.saldo;resize();initMesa();loop();setInterval(()=>fetch('/api/fila').then(r=>r.json()).then(d=>{document.getElementById('filaQ').innerText=d.qtd;if(d.qtd>0)document.getElementById('vsText').innerText=d.qtd+' NA FILA • PRÓXIMO JOGO VALENDO';}),2000);}
-function initMesa(){bolas=[];let r=canvas.width*0.021;let sx=canvas.width*0.69,sy=canvas.height*0.5;let cores=[null,'#FFEB3B','#0D47A1','#E53935','#4A148C','#FF8F00','#2E7D32','#7F0000','#111','#FFEB3B','#0D47A1','#E53935','#4A148C','#FF8F00','#2E7D32','#7F0000'];for(let i=0;i<15;i++){let row=Math.floor((Math.sqrt(8*i+1)-1)/2),col=i-row*(row+1)/2;let x=sx+row*(r*2.0),y=sy+(col-row/2)*(r*2.18);let num=[1,9,2,10,8,3,11,4,12,5,13,6,14,7,15][i];bolas.push({x,y,vx:0,vy:0,r,num,cor:cores[num],striped:num>8});}branca={x:canvas.width*0.24,y:canvas.height*0.5,vx:0,vy:0,r,cor:'#FFF',num:0};bolas.push(branca);}
-function desenhaMesa(){
- // borda madeira nobre luxo
- let gradMadeira=ctx.createLinearGradient(0,0,0,canvas.height);gradMadeira.addColorStop(0,'#6b3a1f');gradMadeira.addColorStop(0.2,'#8d5e3c');gradMadeira.addColorStop(0.5,'#5a2f16');gradMadeira.addColorStop(1,'#3e1f0f');ctx.fillStyle=gradMadeira;ctx.fillRect(0,0,canvas.width,canvas.height);
- // brilho dourado interno
- ctx.strokeStyle='rgba(212,175,55,.35)';ctx.lineWidth=2;ctx.strokeRect(8,8,canvas.width-16,canvas.height-16);
- // feltro premium com vinheta
- let felt=ctx.createRadialGradient(canvas.width/2,canvas.height/2,0,canvas.width/2,canvas.height/2,canvas.width*0.8);felt.addColorStop(0,'#22a33a');felt.addColorStop(0.4,'#1a8a2f');felt.addColorStop(1,'#0c4d14');ctx.fillStyle=felt;ctx.fillRect(22,22,canvas.width-44,canvas.height-44);
- // textura sutil
- ctx.fillStyle='rgba(255,255,255,.03)';for(let i=0;i<200;i++){ctx.fillRect(Math.random()*canvas.width,Math.random()*canvas.height,1,1);}
- // linhas de sinuca
- ctx.strokeStyle='rgba(255,255,255,.08)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(canvas.width*0.24,22);ctx.lineTo(canvas.width*0.24,canvas.height-22);ctx.stroke();ctx.beginPath();ctx.arc(canvas.width*0.24,canvas.height/2,12,0,Math.PI*2);ctx.stroke();
- // logo dourado no centro
- ctx.save();ctx.globalAlpha=.08;ctx.fillStyle='#d4af37';ctx.font=`${canvas.width*0.08}px Cinzel`;ctx.textAlign='center';ctx.fillText('AURUM',canvas.width/2,canvas.height*0.45);ctx.font=`${canvas.width*0.02}px Inter`;ctx.letterSpacing='8px';ctx.fillText('PREMIUM CASINO',canvas.width/2,canvas.height*0.55);ctx.restore();
- // caçapas luxo com aro dourado
- [[0,0],[canvas.width/2,0],[canvas.width,0],[0,canvas.height],[canvas.width/2,canvas.height],[canvas.width,canvas.height]].forEach(p=>{ctx.beginPath();ctx.fillStyle='#000';ctx.arc(p[0],p[1],canvas.width*0.031,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.strokeStyle='#d4af37';ctx.lineWidth=3;ctx.arc(p[0],p[1],canvas.width*0.031,0,Math.PI*2);ctx.stroke();});
+function toggleSenha(){
+  let i=document.getElementById('senha'),b=document.getElementById('btnEye');
+  if(i.type==='password'){i.type='text';b.textContent='🙈';}else{i.type='password';b.textContent='👁️';}
 }
-function drawBall(b){
- ctx.save();ctx.shadowColor='rgba(0,0,0,.6)';ctx.shadowBlur=10;ctx.shadowOffsetY=6;ctx.beginPath();ctx.fillStyle=b.cor;ctx.arc(b.x,b.y,b.r,0,Math.PI*2);ctx.fill();ctx.shadowColor='transparent';
- if(b.num!==0){
-  if(b.striped){ctx.fillStyle='#fff';ctx.begin
+function msg(t,cor){let e=document.getElementById('msg');e.style.color=cor||'#ff8a8a';e.innerText=t;}
+async function cadastrar(){
+  let l=document.getElementById('loginI').value.trim(),s=document.getElementById('senha').value.trim(),n=document.getElementById('nome').value.trim()||l;
+  if(!l||!s){msg('Preencha login e senha','#ff8a8a');return;}
+  msg('Criando conta VIP...','#d4af37');
+  try{
+    let r=await fetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({login:l,senha:s,nome:n})});
+    let d=await r.json();
+    if(!d.ok){msg(d.msg,'#ff8a8a');return;}
+    user=d.user;user.login=l.toLowerCase();logado();
+  }catch(e){msg('Erro de conexão, tenta de novo','#ff8a8a');}
+}
+async function entrar(){
+  let l=document.getElementById('loginI').value.trim(),s=document.getElementById('senha').value.trim();
+  if(!l||!s){msg('Preencha login e senha','#ff8a8a');return;}
+  msg('Abrindo cassino...','#d4af37');
+  try{
+    let r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({login:l,senha:s})});
+    let d=await r.json();
+    if(!d.ok){msg(d.msg,'#ff8a8a');return;}
+    user=d.user;user.login=l.toLowerCase();logado();
+  }catch(e){msg('Erro de conexão','#ff8a8a');}
+}
+function logado(){document.getElementById('login').style.display='none';document.getElementById('game').style.display='flex';document.getElementById('playerName').innerText=user.nome;document.getElementById('saldo').innerText='R$ '+user.saldo;resize();initMesa();loop();}
+function resize(){let w=canvas.parentElement.clientWidth-16;canvas.style.width=w+'px';canvas.width=w*2;canvas.height=w*1.05;}
+window.addEventListener('resize',resize);
+function initMesa(){bolas=[];let r=canvas.width*0.021;let sx=canvas.width*0.69,sy=canvas.height*0.5;let cores=[null,'#FFEB3B','#0D47A1','#E53935','#4A148C','#FF8F00','#2E7D32','#7F0000','#111','#FFEB3B','#0D47A1','#E53935','#4A148C','#FF8F00','#2E7D32','#7F0000'];for(let i=0;i<15;i++){let row=Math.floor((Math.sqrt(8*i+1)-1)/2),col=i-row*(row+1)/2;let x=sx+row*(r*2.0),y=sy+(col-row/2)*(r*2.18);let num=[1,9,2,10,8,3,11,4,12,5,13,6,14,7,15][i];bolas.push({x,y,vx:0,vy:0,r,num,cor:cores[num],striped:num>8});}branca={x:canvas.width*0.24,y:canvas.height*0.5,vx:0,vy:0,r,cor:'#FFF',num:0};bolas.push(branca);}
+function desenhaMesa(){let g=ctx.createLinearGradient(0,0,0,canvas.height);g.addColorStop(0,'#6b3a1f');g.addColorStop(1,'#3e1f0f');ctx.fillStyle=g;ctx.fillRect(0,0,canvas.width,canvas.height);ctx.strokeStyle='rgba(212,175,55,.35)';ctx.lineWidth=2;ctx.strokeRect(8,8,canvas.width-16,canvas.height-16);let f=ctx.createRadialGradient(canvas.width/2,canvas.height/2,0,canvas.width/2,canvas.height/2,canvas.width*0.8);f.addColorStop(0,'#22a33a');f.addColorStop(1,'#0c4d14');ctx.fillStyle=f;ctx.fillRect(22,22,canvas.width-44,canvas.height-44);[[0,0],[canvas.width/2,0],[canvas.width,0],[0,canvas.height],[canvas.width/2,canvas.height],[canvas.width,canvas.height]].forEach(p=>{ctx.beginPath();ctx.fillStyle='#000';ctx.arc(p[0],p[1],canvas.width*0.031,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#d4af37';ctx.lineWidth=3;ctx.stroke();});}
+function drawBall(b){ctx.save();ctx.shadowColor='rgba(0,0,0,.6)';ctx.shadowBlur=10;ctx.shadowOffsetY=6;ctx.beginPath();ctx.fillStyle=b.cor;ctx.arc(b.x,b.y,b.r,0,Math.PI*2);ctx.fill();ctx.shadowColor='transparent';if(b.num!==0){if(b.striped){ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(b.x,b.y,b.r*0.96,0,Math.PI*2);ctx.fill();ctx.fillStyle=b.cor;ctx.fillRect(b.x-b.r,b.y-b.r*0.45,b.r*2,b.r*0.9);}ctx.beginPath();ctx.fillStyle='#fff';ctx.arc(b.x,b.y,b.r*0.52,0,Math.PI*2);ctx.fill();ctx.fillStyle=b.num===8?'#fff':'#000';ctx.font=`bold ${b.r*0.65}px Inter`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(b.num,b.x,b.y+1);}ctx.restore();}
+function loop(){desenhaMesa();if(arrastando){let dx=branca.x-aim.x,dy=branca.y-aim.y;let p=Math.min(Math.hypot(dx,dy)/11,20);document.getElementById('forcaFill').style.width=(p/20*100)+'%';document.getElementById('forcaTxt').innerText=Math.round(p/20*100)+'%';ctx.setLineDash([10,8]);ctx.strokeStyle='rgba(255,255,255,.9)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(branca.x,branca.y);ctx.lineTo(branca.x+dx*3,branca.y+dy*3);ctx.stroke();ctx.setLineDash([]);}bolas.forEach(b=>{b.x+=b.vx;b.y+=b.vy;b.vx*=0.988;b.vy*=0.988;if(Math.abs(b.vx)<0.02)b.vx=0;if(Math.abs(b.vy)<0.02)b.vy=0;let minX=28+b.r,maxX=canvas.width-28-b.r,minY=28+b.r,maxY=canvas.height-28-b.r;if(b.x<minX||b.x>maxX){b.vx*=-0.78;b.x=Math.max(minX,Math.min(maxX,b.x));}if(b.y<minY||b.y>maxY){b.vy*=-0.78;b.y=Math.max(minY,Math.min(maxY,b.y));}let pockets=[[0,0],[canvas.width/2,0],[canvas.width,0],[0,canvas.height],[canvas.width/2,canvas.height],[canvas.width,canvas.height]];for(let p of pockets){if(Math.hypot(b.x-p[0],b.y-p[1])<canvas.width*0.029){if(b===branca){b.x=canvas.width*0.24;b.y=canvas.height/2;b.vx=0;b.vy=0;}else{b.x=-100;b.vx=0;b.vy=0;}break;}}drawBall(b);});for(let i=0;i<bolas.length;i++)for(let j=i+1;j<bolas.length;j++){let a=bolas[i],c=bolas[j];if(a.x<0||c.x<0)continue;let dx=c.x-a.x,dy=c.y-a.y,d=Math.hypot(dx,dy);if(d<a.r+c.r&&d>0){let nx=dx/d,ny=dy/d,tx=-ny,ty=nx;let v1n=a.vx*nx+a.vy*ny,v1t=a.vx*tx+a.vy*ty,v2n=c.vx*nx+c.vy*ny,v2t=c.vx*tx+c.vy*ty;let n1=v2n,n2=v1n;a.vx=n1*nx+v1t*tx;a.vy=n1*ny+v1t*ty;c.vx=n2*nx+v2t*tx;c.vy=n2*ny+v2t*ty;let over=(a.r+c.r-d)/2;a.x-=nx*over;a.y-=ny*over;c.x+=nx*over;c.y+=ny*over;}}requestAnimationFrame(loop);}
+function getPos(e){let r=canvas.getBoundingClientRect();let s=e.touches?e.touches[0]:e;return{x:(s.clientX-r.left)*canvas.width/r.width,y:(s.clientY-r.top)*canvas.height/r.height};}
+canvas.addEventListener('mousedown',e=>{let p=getPos(e);if(Math.hypot(p.x-branca.x,p.y-branca.y)<branca.r*2.8){arrastando=true;aim=p;}});canvas.addEventListener('mousemove',e=>{if(arrastando)aim=getPos(e);});canvas.addEventListener('mouseup',e=>{if(arrastando){let dx=branca.x-aim.x,dy=branca.y-aim.y;branca.vx=dx*0.20;branca.vy=dy*0.20;}arrastando=false;document.getElementById('forcaFill').style.width='0%';document.getElementById('forcaTxt').innerText='0%';});
+canvas.addEventListener('touchstart',e=>{let p=getPos(e);if(Math.hypot(p.x-branca.x,p.y-branca.y)<branca.r*3.5){arrastando=true;aim=p;}},{passive:false});canvas.addEventListener('touchmove',e=>{if(arrastando){e.preventDefault();aim=getPos(e);}},{passive:false});canvas.addEventListener('touchend',e=>{if(arrastando){let dx=branca.x-aim.x,dy=branca.y-aim.y;branca.vx=dx*0.21;branca.vy=dy*0.21;}arrastando=false;document.getElementById('forcaFill').style.width='0%';document.getElementById('forcaTxt').innerText='0%';});
+async function entrarFila(){if(!user)return;await fetch('/api/fila/entrar',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({login:user.login})});}
+async function sairFila(){if(!user)return;await fetch('/api/fila/sair',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({login:user.login})});}
+resize();
+</script>
+</body>
+</html>
