@@ -3,114 +3,181 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>AURUM SINUCA</title>
+<title>AURUM POOL - 8 Ball Nordeste</title>
+<link id="manifestLink" rel="manifest" href="">
+<meta name="theme-color" content="#d4af37">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="AURUM POOL">
+<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/4315/4315445.png">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
-body{background:#050505;color:#fff;overflow:hidden}
-#app{position:fixed;inset:0;display:flex;flex-direction:column;background:radial-gradient(ellipse at top,#101a30,#050505 85%)}
-.header{height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:#000;border-bottom:2px solid #d4af37;position:relative;z-index:20}
-.logo{font-weight:900;letter-spacing:2px;font-size:20px;cursor:pointer;user-select:none}.logo span{color:#d4af37}
-.btnJogar{padding:10px 18px;border-radius:12px;border:none;background:#d4af37;font-weight:900;color:#000;cursor:pointer;position:relative;z-index:30}
-.tabs{display:flex;gap:6px;padding:10px;background:#0a0a0a;border-bottom:1px solid #1a1a1a}
-.tab{flex:1;padding:11px;border-radius:11px;border:1px solid #222;background:#111;color:#666;font-weight:800;font-size:12px;text-align:center;cursor:pointer}.tab.on{background:#d4af37;color:#000;border-color:#d4af37}
-.screen{flex:1;overflow:auto;padding:12px}
-.card{background:linear-gradient(180deg,#171717,#0c0c0c);border:1px solid #232323;border-radius:18px;padding:14px;margin-bottom:12px}
-.card h3{color:#d4af37;font-size:13px;margin-bottom:6px}.card p{font-size:12px;color:#888;line-height:1.4}
-.btn{width:100%;padding:14px;border-radius:14px;border:none;font-weight:900;background:linear-gradient(180deg,#f0d27a,#d4af37);color:#000;margin-top:10px;font-size:14px;cursor:pointer}
-.faixaLine{padding:10px;border-radius:12px;background:#111;border:1px solid #222;margin-top:8px;display:flex;justify-content:space-between;font-size:12px;color:#aaa}
-#game{position:fixed;inset:0;display:none;flex-direction:column;background:#020a1a;z-index:90}
-#hud{height:50px;display:flex;gap:6px;padding:6px;background:#000;border-bottom:2px solid #d4af37;align-items:center}
-.hBox{flex:1;background:#111;border:1px solid #222;border-radius:10px;padding:4px;text-align:center;font-size:10px;color:#aaa}.hBox b{color:#d4af37;display:block;font-size:12px}
-#tableArea{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px;background:radial-gradient(ellipse at center,#0c1d36,#020814)}
-#canvasWrap{position:relative;width:100%;max-width:920px;aspect-ratio:1.9/1}
-canvas{width:100%;height:100%;border-radius:12px;display:block;border:10px solid #3e1414;box-shadow:0 0 0 2px #000,0 0 0 5px #d4af37;touch-action:none;background:#0f8bc0}
-#forceWrap{width:100%;max-width:920px;height:20px;background:#000;border:1px solid #222;border-radius:20px;margin-top:8px;padding:2px;display:flex;align-items:center}
-#barH{height:100%;flex:1;background:#111;border-radius:20px;overflow:hidden}#fillH{height:100%;width:0%;background:linear-gradient(90deg,#00ff6a,#ffeb00,#ff2a2a)}
-#taco{position:absolute;height:12px;border-radius:6px;transform-origin:left center;pointer-events:none;z-index:10;display:none;background:linear-gradient(90deg,#f5d9b0,#c89a6a 40%,#8a5a2e 80%,#111 100%)}
-#admin{position:fixed;inset:0;background:#070707;z-index:200;display:none;padding:16px;overflow:auto}
-.tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}.tbl th{background:#111;color:#d4af37;padding:8px;text-align:left;border-bottom:1px solid #222}.tbl td{padding:8px;border-bottom:1px solid #1a1a1a}
-.inp{width:70px;background:#000;color:#fff;border:1px solid #333;border-radius:8px;padding:6px;text-align:center}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Impact,system-ui}
+body{background:#000;overflow:hidden;color:#fff}
+/* LOGIN - VOLTOU */
+#loginScreen{position:fixed;inset:0;z-index:800;background:radial-gradient(ellipse at top,#1a2a55,#000 85%);display:flex;align-items:center;justify-content:center;padding:20px}
+.loginBox{width:100%;max-width:380px;background:linear-gradient(180deg,#1a1a1a,#0a0a0a);border:2px solid #d4af37;border-radius:24px;padding:22px;box-shadow:0 0 30px rgba(212,175,55,.3)}
+.loginBox h1{color:#d4af37;text-align:center;font-size:22px;font-weight:900;letter-spacing:2px}.loginBox h1 span{color:#fff}
+.inp{width:100%;padding:14px;border-radius:12px;border:1px solid #333;background:#000;color:#fff;margin-bottom:10px}
+.btnGold{width:100%;padding:15px;border-radius:14px;border:none;font-weight:900;background:linear-gradient(180deg,#f0d27a,#d4af37);color:#000;cursor:pointer}
+/* LOADING */
+#loading{position:fixed;inset:0;background:#000;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.logo8{width:260px;height:70px;background:linear-gradient(180deg,#fff,#ddd);border-radius:30px;border:3px solid #ff9c00;display:flex;align-items:center;justify-content:center;color:#0055ff;font-weight:900;font-size:28px;font-style:italic;box-shadow:0 0 0 3px #000}
+.logo8 b{background:#000;color:#fff;width:38px;height:38px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-right:8px}
+.loader{margin-top:100px;width:70px;height:70px;position:relative}
+.arc{position:absolute;inset:0;border:4px solid transparent;border-top-color:#fff;border-bottom-color:#fff;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* MENU MINICLIP */
+#menu{position:fixed;inset:0;display:none;flex-direction:column;background:radial-gradient(ellipse at 50% 0%, #ffe08a 0%, #ff9e1a 15%, #ff5e00 40%, #4a1500 80%);overflow:hidden}
+.topBar{height:52px;background:linear-gradient(180deg,#3d1f00,#1a0c00);border-bottom:2px solid #000;display:flex;gap:1px;overflow:auto}
+.topItem{flex:1;min-width:78px;height:50px;background:linear-gradient(180deg,#5a3310,#2a1800);border:1px solid #000;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:8px;color:#c9a86a;text-align:center}
+.topItem b{color:#ffd27a;font-size:10px}
+.centerLogo{margin:12px auto 0;width:250px;height:68px;background:linear-gradient(180deg,#fff,#ddd);border-radius:28px;border:3px solid #000;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 3px #ff9c00;z-index:5}
+.centerLogo span{color:#0055ff;font-weight:900;font-size:28px;font-style:italic}
+.botoes{margin-top:12px;display:flex;gap:8px;overflow:auto;padding:10px;width:100%;z-index:5}
+.btnM{min-width:142px;height:84px;border-radius:12px;border:3px solid #000;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;font-size:15px;text-align:center;cursor:pointer;box-shadow:0 4px 0 #000}
+.btn1{background:linear-gradient(180deg,#33cc00,#0a5a00);color:#fff}
+.btn2{background:linear-gradient(180deg,#1a3a8a,#0a1a4a);color:#c0d0ff;font-size:11px}
+.btn3{background:linear-gradient(180deg,#0a3a6a,#042040);color:#a0c0ff}
+.btn4{background:linear-gradient(180deg,#0a6a6a,#043a3a);color:#a0ffff}
+.btn5{background:linear-gradient(180deg,#8a5a00,#4a3000);color:#ffe0a0}
+.btn6{background:linear-gradient(180deg,#c0c0c0,#606060);color:#fff}
+.mesaPrev{position:absolute;bottom:0;left:0;right:0;height:36%;background:linear-gradient(180deg,#1a5a9a,#0a8ed8 10%, #0a6ab0);border-top:6px solid #8a2a00;display:flex;align-items:center;justify-content:space-around;padding:0 10px}
+.bolaP{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;color:#000;box-shadow:0 4px 10px rgba(0,0,0,.6)}
+.subMenu{position:absolute;bottom:0;left:0;right:0;height:38%;background:#2a2a3a;border-top:4px solid #666;display:none;align-items:center;justify-content:center;gap:20px;z-index:20}
+.subBtn{width:140px;height:90px;border-radius:12px;border:3px solid #000;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;cursor:pointer}
+.s1{background:linear-gradient(180deg,#c0c0c0,#808080)}.s2{background:linear-gradient(180deg,#ff0000,#8a0000);color:#fff}
+/* GAME */
+#game{position:fixed;inset:0;display:none;flex-direction:column;background:#1a2f4a;z-index:200}
+.gameTop{height:56px;background:linear-gradient(180deg,#2a3f5a,#0f1a2a);display:flex;align-items:center;gap:6px;padding:0 8px;border-bottom:2px solid #000}
+.gBox{min-width:62px;background:#0a0a0a;border:1px solid #444;border-radius:6px;padding:4px 6px;text-align:center;font-size:10px;color:#aaa}.gBox b{display:block;color:#fff;font-size:14px}
+.power{width:26px;height:240px;background:#0a0a0a;border:2px solid #666;border-radius:14px;margin-left:12px;position:relative}
+.powerFill{position:absolute;bottom:4px;left:4px;right:4px;background:linear-gradient(180deg,#ff0000,#ffff00,#00ff00);border-radius:10px;height:5%}
+#tableWrap{flex:1;display:flex;align-items:center;justify-content:center;padding:6px;position:relative}
+canvas#mesa{width:100%;max-width:960px;aspect-ratio:2/1;background:#0f8bc0;border:10px solid #8a1a00;border-radius:8px;box-shadow:0 0 0 3px #000,0 0 0 6px #666}
+#taco{position:absolute;height:10px;background:linear-gradient(90deg,#e8c89a,#8a5a2e);border-radius:5px;transform-origin:left center;pointer-events:none;z-index:20;display:none}
+#admin{position:fixed;inset:0;background:#070707;z-index:900;display:none;padding:16px;overflow:auto}
 </style>
 </head>
 <body>
-<div id="app">
-<div class="header"><div class="logo" id="logoClick">AURUM <span>SINUCA</span></div><button class="btnJogar" onclick="abrirJogo()">JOGAR</button></div>
-<div class="tabs"><div class="tab on" onclick="trocaAba(0,this)">INICIANTE</div><div class="tab" onclick="trocaAba(1,this)">INTERM.</div><div class="tab" onclick="trocaAba(2,this)">ELITE</div></div>
-<div class="screen" id="screen"></div>
+
+<div id="loginScreen">
+<div class="loginBox">
+<h1>AURUM <span>SINUCA</span></h1>
+<p style="color:#777;text-align:center;font-size:12px;margin:6px 0 14px">Entre para jogar - Plataforma do Nordeste</p>
+<input id="loginInput" class="inp" placeholder="Login (ex: joao123)">
+<input id="nomeInput" class="inp" placeholder="Seu Nome">
+<input id="zapInput" class="inp" placeholder="Whatsapp (opcional)">
+<button class="btnGold" onclick="entrarPlataforma()">ENTRAR NA PLATAFORMA</button>
+<p style="margin-top:10px;font-size:10px;color:#555;text-align:center">Ao entrar você vira app instalável</p>
+</div>
+</div>
+
+<div id="loading">
+<div class="logo8"><b>8</b> POOL</div>
+<div style="color:#fff;margin-top:8px;letter-spacing:3px;font-size:9px">AURUM BY NORDESTE</div>
+<div class="loader"><div class="arc"></div></div>
+<div style="position:absolute;bottom:30px;color:#666;font-size:11px">Conectando...</div>
+</div>
+
+<div id="menu">
+<div class="topBar">
+<div class="topItem"><span>👤</span><b id="topNome">Vanderson</b><span>-/- 🏆</span></div>
+<div class="topItem">🎱<b>Tacos</b></div>
+<div class="topItem">💰<b>Recompensas</b></div>
+<div class="topItem">⭐<b>Classificação</b></div>
+<div class="topItem">🛒<b>Loja</b></div>
+<div class="topItem">💵<b id="topCash">14</b></div>
+<div class="topItem">🪙<b>20 851</b></div>
+</div>
+<div style="flex:1;position:relative;display:flex;flex-direction:column;align-items:center">
+<div class="centerLogo"><span>AURUM POOL</span></div>
+<div style="font-size:9px;letter-spacing:2px;margin-top:2px;z-index:5">TORNEIOS POR FAIXA - JUDÔ</div>
+<div class="botoes" id="botoes">
+<div class="btnM btn1" onclick="irJogo('1x1')">Jogar<br><small>1 contra 1</small></div>
+<div class="btnM btn2" onclick="alert('Login Facebook em breve')">Fazer login com<br><b style="font-size:18px">facebook</b></div>
+<div class="btnM btn3" onclick="irJogo('especial')">Jogar<br><small>Especial</small></div>
+<div class="btnM btn4" onclick="irJogo('minijogos')">Jogar<br><small>Minijogos</small></div>
+<div class="btnM btn5" onclick="irJogo('amigos')">Jogar<br><small>com Amigos</small></div>
+<div class="btnM btn6" onclick="abrirTreino()">Treino<br><small>Offline</small></div>
+</div>
+<div class="mesaPrev">
+<div class="bolaP" style="background:#fff;width:70px;height:70px">⚪</div>
+<div class="bolaP" style="background:radial-gradient(circle at 30% 30%, #fff, #00aa00)">14</div>
+<div class="bolaP" style="background:#ffaa00">1</div>
+<div class="bolaP" style="background:#0050ff;color:#fff">2</div>
+<div class="bolaP" style="background:#ff0000;color:#fff">3</div>
+</div>
+<div class="subMenu" id="subMenu">
+<div class="subBtn s1" onclick="irJogo('passar')">Passar<br>e Jogar<br><small>Taxa: 25 🪙</small></div>
+<div class="subBtn s2" onclick="irJogo('rapida')">Jogar<br>Tacada Rápida<br><small>Taxa: 25 🪙</small></div>
+</div>
+</div>
 </div>
 
 <div id="game">
-<div id="hud"><div class="hBox">Jogador <b>Nordestino</b></div><div class="hBox">Mesa <b>Azul</b></div><div class="hBox">Faixa <b id="hFaixa">Branca</b></div><button onclick="voltarApp()" style="margin-left:auto;padding:8px 12px;border-radius:10px;border:none;background:#fff;font-weight:900;cursor:pointer">SAIR</button></div>
-<div id="tableArea"><div id="canvasWrap"><div id="taco"></div><canvas id="mesa" width="1000" height="526"></canvas></div><div id="forceWrap"><span style="font-size:9px;color:#d4af37;margin:0 8px">FORÇA</span><div id="barH"><div id="fillH"></div></div></div></div>
+<div class="gameTop">
+<button onclick="voltarMenu()" style="width:34px;height:34px;background:#00c800;border:2px solid #000;border-radius:8px;font-weight:900">☰</button>
+<div class="gBox" style="background:#222">Multiplicador<b id="mult">1.0x</b></div>
+<div class="gBox">Triângulo<b id="tri">1</b></div>
+<div class="gBox">Tempo<b id="tempo">02:00</b></div>
+<div class="gBox" style="color:#ffeb00">Pontuação<b id="pts">0</b></div>
+<button onclick="document.getElementById('admin').style.display='block'" style="margin-left:auto;padding:6px 10px;border-radius:8px;border:none;background:#d4af37;font-weight:900">ADMIN</button>
+</div>
+<div style="flex:1;display:flex">
+<div class="power"><div id="powerFill" class="powerFill"></div></div>
+<div id="tableWrap"><div id="taco"></div><canvas id="mesa" width="1000" height="500"></canvas></div>
+</div>
 </div>
 
-<div id="admin">
-<h2 style="color:#d4af37">👥 Usuários - Editar/Excluir/Login</h2>
-<div id="adminUsers">Carregando...</div>
-<h3 style="color:#d4af37;margin:20px 0 10px">⚙️ Valores Mesas - Por Faixa</h3>
-<div id="adminValores">Carregando...</div>
-<button class="btn" onclick="salvarValores()" style="background:#d4af37;color:#000">SALVAR VALORES</button>
-<button class="btn" onclick="document.getElementById('admin').style.display='none'" style="background:#222;color:#fff">FECHAR ADMIN</button>
-<p style="margin-top:12px;font-size:11px;color:#666">Acesso: 5 cliques no logo AURUM ou abra seu-site.com#admin</p>
-</div>
+<div id="admin"><h2 style="color:#d4af37">ADMIN - Faixas Judô</h2><p style="color:#777;font-size:12px">Edite faixa do jogador aqui</p><select id="selFaixa" class="inp" style="margin-top:12px"><option>Branca</option><option>Azul</option><option>Amarela</option><option>Laranja</option><option>Verde</option><option>Roxa</option><option>Marrom</option><option>Preta</option></select><button class="btnGold" style="margin-top:10px" onclick="salvarFaixa()">SALVAR FAIXA</button><button class="btnGold" style="margin-top:10px;background:#222;color:#fff" onclick="document.getElementById('admin').style.display='none'">FECHAR</button><div style="margin-top:14px;font-size:12px;color:#aaa"><p>• Pódio com 2 terceiros lugares</p><p>• 3 vitórias para subir de faixa</p><p>• App instalável - já funciona offline</p></div></div>
 
 <script>
+// PWA - VIRA APP SOZINHO - CRIA MANIFEST E SW SEM PRECISAR OUTROS ARQUIVOS
+(function(){
+ const manifest={name:"AURUM SINUCA - 8 Pool Nordeste",short_name:"AURUM POOL",start_url:"/",display:"standalone",orientation:"landscape",background_color:"#000000",theme_color:"#d4af37",icons:[{src:"https://cdn-icons-png.flaticon.com/512/4315/4315445.png",sizes:"512x512",type:"image/png"}]};
+ const mBlob=new Blob([JSON.stringify(manifest)],{type:"application/json"});
+ document.getElementById('manifestLink').href=URL.createObjectURL(mBlob);
+ if('serviceWorker' in navigator){
+  const sw=`self.addEventListener('install',e=>{e.waitUntil(caches.open('aurum-v4').then(c=>c.addAll(['/'])))});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)))})`;
+  const sBlob=new Blob([sw],{type:"text/javascript"});
+  navigator.serviceWorker.register(URL.createObjectURL(sBlob));
+ }
+})();
+
+// LOGIN
 let faixaAtual=localStorage.getItem('faixa')||'Branca';
-let torneios=[
-[{f:'Branca',premio:18,jog:8},{f:'Azul',premio:25,jog:8},{f:'Amarela',premio:32,jog:8}],
-[{f:'Laranja',premio:45,jog:12},{f:'Verde',premio:60,jog:12},{f:'Roxa',premio:80,jog:12}],
-[{f:'Marrom',premio:120,jog:16},{f:'Preta',premio:200,jog:16}]
-];
-let aba=0;
-function render(){let s=document.getElementById('screen');s.innerHTML='';torneios[aba].forEach(t=>{
-s.innerHTML+=`<div class="card"><h3>${t.f==='Branca'?'⚪':'🔵'} TORNEIO - FAIXA ${t.f.toUpperCase()}</h3><p>${t.jog} jogadores • Pódio com 2 terceiros lugares • Prêmio R$${t.premio}</p><div class="faixaLine"><span>Sua faixa: ${faixaAtual}</span><span style="color:${faixaAtual===t.f?'#0f0':'#666'}">${faixaAtual===t.f?'LIBERADO':'BLOQUEADO'}</span></div><button class="btn" onclick="abrirJogo('${t.f}')">ENTRAR NA MESA - R$${t.premio}</button></div>`});
-s.innerHTML+=`<div class="card"><h3>🏆 RANKING - PÓDIO OFICIAL</h3><p>1º Lugar • 2º Lugar • 3º Lugar (2 jogadores empatados no judô)</p><p style="margin-top:8px;color:#555">Precisa vencer 3 torneios da faixa para subir de graduação</p></div>`;
-document.getElementById('hFaixa').innerText=faixaAtual;
+let nomeAtual=localStorage.getItem('nome')||'';
+let loginAtual=localStorage.getItem('login')||'';
+function entrarPlataforma(){
+ let l=document.getElementById('loginInput').value.trim();
+ let n=document.getElementById('nomeInput').value.trim();
+ if(!l||!n){alert('Preencha login e nome');return;}
+ localStorage.setItem('login',l); localStorage.setItem('nome',n);
+ nomeAtual=n; loginAtual=l;
+ document.getElementById('loginScreen').style.display='none';
+ document.getElementById('loading').style.display='flex';
+ setTimeout(()=>{document.getElementById('loading').style.display='none';document.getElementById('menu').style.display='flex';document.getElementById('topNome').innerText=n;},1500);
 }
-function trocaAba(i,el){aba=i;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));el.classList.add('on');render();}
-function abrirJogo(f){if(f)faixaAtual=f;document.getElementById('app').style.display='none';document.getElementById('game').style.display='flex';initMesa();}
-function voltarApp(){document.getElementById('game').style.display='none';document.getElementById('app').style.display='flex';render();}
+if(loginAtual){document.getElementById('loginScreen').style.display='none';document.getElementById('topNome').innerText=nomeAtual;document.getElementById('loginInput').value=loginAtual;document.getElementById('nomeInput').value=nomeAtual;}
 
-let canvas=document.getElementById('mesa'),ctx=canvas.getContext('2d'),bolas=[],branca,arr=false,aim={x:0,y:0};
-function initMesa(){bolas=[];let W=canvas.width,H=canvas.height,R=W*0.026;let sx=W*0.70,sy=H*0.5;let ordem=[1,14,2,15,3,10,8,9,11,4,12,5,13,6,7];let cores={1:'#ffcc00',2:'#0050ff',3:'#ff0000',4:'#800080',5:'#ff8800',6:'#00aa00',7:'#8b0000',8:'#000',9:'#ffcc00',10:'#0050ff',11:'#ff0000',12:'#800080',13:'#ff8800',14:'#00aa00',15:'#8b0000'};for(let i=0;i<15;i++){let row=Math.floor((Math.sqrt(8*i+1)-1)/2);let col=i-row*(row+1)/2;let x=sx+row*R*2.08,y=sy+(col-row/2)*R*2.18;let n=ordem[i];bolas.push({x,y,vx:0,vy:0,r:R,num:n,cor:cores[n],stripe:n>8,caida:false,scale:1});}branca={x:W*0.25,y:H*0.5,vx:0,vy:0,r:R,cor:'#fff',num:0,caida:false,scale:1};bolas.push(branca);}
-function drawTable(){let W=canvas.width,H=canvas.height;ctx.fillStyle='#3e1414';ctx.fillRect(0,0,W,H);ctx.fillStyle='#0f8bc0';ctx.fillRect(12,12,W-24,H-24);[[0,0],[W/2,0],[W,0],[0,H],[W/2,H],[W,H]].forEach(p=>{ctx.beginPath();ctx.fillStyle='#000';ctx.arc(p[0],p[1],28,0,Math.PI*2);ctx.fill();});}
-function drawBall(b){if(b.x<0)return;ctx.save();ctx.translate(b.x,b.y);ctx.scale(b.scale,b.scale);ctx.fillStyle='rgba(0,0,0,.35)';ctx.beginPath();ctx.ellipse(0,b.r*0.55,b.r*0.85,b.r*0.22,0,0,Math.PI*2);ctx.fill();let g=ctx.createRadialGradient(-b.r*0.25,-b.r*0.3,b.r*0.1,0,0,b.r);g.addColorStop(0,'#fff');g.addColorStop(0.25,b.cor||'#fff');g.addColorStop(1,'#000');ctx.fillStyle=b.num===0?'#fff':g;ctx.beginPath();ctx.arc(0,0,b.r,0,Math.PI*2);ctx.fill();if(b.num!==0){if(b.stripe){ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(0,0,b.r,0,Math.PI*2);ctx.fill();ctx.fillStyle=b.cor;ctx.fillRect(-b.r,-b.r*0.42,b.r*2,b.r*0.84);}ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(0,0,b.r*0.52,0,Math.PI*2);ctx.fill();ctx.fillStyle='#000';ctx.font=`900 ${b.r*0.62}px Arial`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(b.num,0,1);}ctx.fillStyle='rgba(255,255,255,.75)';ctx.beginPath();ctx.ellipse(-b.r*0.28,-b.r*0.28,b.r*0.22,b.r*0.14,-0.7,0,Math.PI*2);ctx.fill();ctx.restore();}
-function loop(){drawTable();let t=document.getElementById('taco');
-if(arr){let dx=branca.x-aim.x,dy=branca.y-aim.y;let force=Math.min(Math.hypot(dx,dy)/10,28);document.getElementById('fillH').style.width=(force/28*100)+'%';let ang=Math.atan2(dy,dx);let len=180+force*9;t.style.display='block';t.style.left=branca.x+'px';t.style.top=(branca.y-6)+'px';t.style.width=len+'px';t.style.transform=`rotate(${ang}rad)`;ctx.setLineDash([12,10]);ctx.strokeStyle='rgba(255,255,255,.9)';ctx.lineWidth=1.3;ctx.beginPath();ctx.moveTo(branca.x,branca.y);ctx.lineTo(branca.x+dx*5,branca.y+dy*5);ctx.stroke();ctx.setLineDash([]);}else{t.style.display='none';}
-bolas.forEach(b=>{if(b.x<0)return;b.x+=b.vx;b.y+=b.vy;b.vx*=0.993;b.vy*=0.993;if(Math.abs(b.vx)<0.02)b.vx=0;if(Math.abs(b.vy)<0.02)b.vy=0;if(b.x<14+b.r||b.x>canvas.width-14-b.r){b.vx*=-0.82;b.x=Math.max(14+b.r,Math.min(canvas.width-14-b.r,b.x));}if(b.y<14+b.r||b.y>canvas.height-14-b.r){b.vy*=-0.82;b.y=Math.max(14+b.r,Math.min(canvas.height-14-b.r,b.y));}let pockets=[[0,0],[canvas.width/2,0],[canvas.width,0],[0,canvas.height],[canvas.width/2,canvas.height],[canvas.width,canvas.height]];for(let p of pockets){if(Math.hypot(b.x-p[0],b.y-p[1])<28){if(b===branca){setTimeout(()=>{b.x=canvas.width*0.25;b.y=canvas.height*0.5;b.vx=0;b.vy=0;b.caida=false;b.scale=1;},400);b.caida=true;}else{b.caida=true;}}}if(b.caida)b.scale*=0.88;if(b.scale<0.06)b.x=-100;if(b.x>=0)drawBall(b);});
-for(let i=0;i<bolas.length;i++)for(let j=i+1;j<bolas.length;j++){let a=bolas[i],c=bolas[j];if(a.x<0||c.x<0||a.caida&&a.scale<0.5||c.caida&&c.scale<0.5)continue;let dx=c.x-a.x,dy=c.y-a.y,d=Math.hypot(dx,dy);if(d<a.r+c.r&&d>0){let nx=dx/d,ny=dy/d,tx=-ny,ty=nx;let v1n=a.vx*nx+a.vy*ny,v1t=a.vx*tx+a.vy*ty,v2n=c.vx*nx+c.vy*ny,v2t=c.vx*tx+c.vy*ty;let n1=v2n,n2=v1n;a.vx=n1*nx+v1t*tx;a.vy=n1*ny+v1t*ty;c.vx=n2*nx+v2t*tx;c.vy=n2*ny+v2t*ty;let over=(a.r+c.r-d)/2;a.x-=nx*over;a.y-=ny*over;c.x+=nx*over;c.y+=ny*over;}}requestAnimationFrame(loop);}
+function abrirTreino(){document.getElementById('subMenu').style.display='flex';}
+function irJogo(modo){localStorage.setItem('modoAurum',modo);document.getElementById('menu').style.display='none';document.getElementById('game').style.display='flex';iniciarJogo();}
+function voltarMenu(){document.getElementById('game').style.display='none';document.getElementById('menu').style.display='flex';document.getElementById('subMenu').style.display='none';}
+function salvarFaixa(){faixaAtual=document.getElementById('selFaixa').value;localStorage.setItem('faixa',faixaAtual);alert('Faixa salva: '+faixaAtual);document.getElementById('admin').style.display='none';}
+
+// JOGO MINICLIP
+let canvas=document.getElementById('mesa'),ctx=canvas.getContext('2d'),bolas=[],branca,arr=false,aim={x:0,y:0},tempo=120,pts=0;
+function iniciarJogo(){bolas=[];let W=canvas.width,H=canvas.height,R=W*0.024;let sx=W*0.68,sy=H*0.5;let ordem=[1,14,2,15,3,10,8,9,11,4,12,5,13,6,7];let cores={1:'#ffcc00',2:'#0050ff',3:'#ff0000',4:'#800080',5:'#ff8800',6:'#00aa00',7:'#8b0000',8:'#000',9:'#ffcc00',10:'#0050ff',11:'#ff0000',12:'#800080',13:'#ff8800',14:'#00aa00',15:'#8b0000'};for(let i=0;i<15;i++){let row=Math.floor((Math.sqrt(8*i+1)-1)/2),col=i-row*(row+1)/2;let x=sx+row*R*2.1,y=sy+(col-row/2)*R*2.2;let n=ordem[i];bolas.push({x,y,vx:0,vy:0,r:R,num:n,cor:cores[n],stripe:n>8,caida:false,scale:1});}branca={x:W*0.22,y:H*0.5,vx:0,vy:0,r:R,num:0,caida:false,scale:1};bolas.push(branca);pts=0;tempo=120;document.getElementById('pts').innerText=pts;}
+function drawTable(){let W=canvas.width,H=canvas.height;ctx.fillStyle='#8a1a00';ctx.fillRect(0,0,W,H);ctx.fillStyle='#0f8bc0';ctx.fillRect(14,14,W-28,H-28);ctx.strokeStyle='rgba(255,255,255,.2)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(W*0.22,14);ctx.lineTo(W*0.22,H-14);ctx.stroke();[[0,0],[W/2,0],[W,0],[0,H],[W/2,H],[W,H]].forEach(p=>{ctx.beginPath();ctx.fillStyle='#000';ctx.arc(p[0],p[1],26,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.strokeStyle='#d4af37';ctx.lineWidth=1.5;ctx.arc(p[0],p[1],24,0,Math.PI*2);ctx.stroke();});}
+function drawBall(b){if(b.x<0)return;ctx.save();ctx.translate(b.x,b.y);ctx.scale(b.scale,b.scale);ctx.fillStyle='rgba(0,0,0,.3)';ctx.beginPath();ctx.ellipse(0,b.r*0.6,b.r*0.85,b.r*0.22,0,0,Math.PI*2);ctx.fill();let g=ctx.createRadialGradient(-b.r*0.25,-b.r*0.25,b.r*0.1,0,0,b.r);g.addColorStop(0,'#fff');g.addColorStop(0.3,b.cor||'#fff');g.addColorStop(1,'#000');ctx.fillStyle=b.num===0?'#fff':g;ctx.beginPath();ctx.arc(0,0,b.r,0,Math.PI*2);ctx.fill();if(b.num!==0){if(b.stripe){ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(0,0,b.r,0,Math.PI*2);ctx.fill();ctx.fillStyle=b.cor;ctx.fillRect(-b.r,-b.r*0.4,b.r*2,b.r*0.8);}ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(0,0,b.r*0.48,0,Math.PI*2);ctx.fill();ctx.fillStyle='#000';ctx.font=`900 ${b.r*0.6}px Arial`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(b.num,0,1);}ctx.restore();}
+function loop(){drawTable();let tacoEl=document.getElementById('taco');if(arr){let dx=branca.x-aim.x,dy=branca.y-aim.y;let f=Math.min(Math.hypot(dx,dy)/8,30);document.getElementById('powerFill').style.height=(f/30*100)+'%';let ang=Math.atan2(dy,dx);let len=200+f*6;tacoEl.style.display='block';tacoEl.style.left=branca.x+'px';tacoEl.style.top=(branca.y-5)+'px';tacoEl.style.width=len+'px';tacoEl.style.transform=`rotate(${ang}rad)`;ctx.setLineDash([10,8]);ctx.strokeStyle='#fff';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(branca.x,branca.y);ctx.lineTo(branca.x+dx*6,branca.y+dy*6);ctx.stroke();ctx.setLineDash([]);ctx.beginPath();ctx.arc(branca.x+dx*6,branca.y+dy*6,12,0,Math.PI*2);ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();}else{tacoEl.style.display='none';}
+ bolas.forEach(b=>{if(b.x<0)return;b.x+=b.vx;b.y+=b.vy;b.vx*=0.993;b.vy*=0.993;if(Math.abs(b.vx)<0.02)b.vx=0;if(Math.abs(b.vy)<0.02)b.vy=0;if(b.x<14+b.r||b.x>canvas.width-14-b.r){b.vx*=-0.85;b.x=Math.max(14+b.r,Math.min(canvas.width-14-b.r,b.x));}if(b.y<14+b.r||b.y>canvas.height-14-b.r){b.vy*=-0.85;b.y=Math.max(14+b.r,Math.min(canvas.height-14-b.r,b.y));}let pockets=[[0,0],[canvas.width/2,0],[canvas.width,0],[0,canvas.height],[canvas.width/2,canvas.height],[canvas.width,canvas.height]];for(let p of pockets){if(Math.hypot(b.x-p[0],b.y-p[1])<24){if(b===branca){setTimeout(()=>{b.x=canvas.width*0.22;b.y=canvas.height*0.5;b.vx=0;b.vy=0;b.caida=false;b.scale=1;},500);b.caida=true;}else{b.caida=true;pts+=10;document.getElementById('pts').innerText=pts;}}}if(b.caida)b.scale*=0.86;if(b.scale<0.06)b.x=-100;if(b.x>=0)drawBall(b);});
+ for(let i=0;i<bolas.length;i++)for(let j=i+1;j<bolas.length;j++){let a=bolas[i],c=bolas[j];if(a.x<0||c.x<0)continue;let dx=c.x-a.x,dy=c.y-a.y,d=Math.hypot(dx,dy);if(d<a.r+c.r&&d>0){let nx=dx/d,ny=dy/d,tx=-ny,ty=nx;let v1n=a.vx*nx+a.vy*ny,v1t=a.vx*tx+a.vy*ty,v2n=c.vx*nx+c.vy*ny,v2t=c.vx*tx+c.vy*ty;let n1=v2n,n2=v1n;a.vx=n1*nx+v1t*tx;a.vy=n1*ny+v1t*ty;c.vx=n2*nx+v2t*tx;c.vy=n2*ny+v2t*ty;let over=(a.r+c.r-d)/2;a.x-=nx*over;a.y-=ny*over;c.x+=nx*over;c.y+=ny*over;}}requestAnimationFrame(loop);}
 function getPos(e){let r=canvas.getBoundingClientRect();let p=e.touches?e.touches[0]:e;return{x:(p.clientX-r.left)*canvas.width/r.width,y:(p.clientY-r.top)*canvas.height/r.height};}
-canvas.addEventListener('mousedown',e=>{let p=getPos(e);if(Math.hypot(p.x-branca.x,p.y-branca.y)<branca.r*4){arr=true;aim=p;}});canvas.addEventListener('mousemove',e=>{if(arr)aim=getPos(e);});
-canvas.addEventListener('mouseup',()=>{if(arr){let dx=branca.x-aim.x,dy=branca.y-aim.y;branca.vx=dx*0.28;branca.vy=dy*0.28;}arr=false;document.getElementById('fillH').style.width='0%';});
-canvas.addEventListener('touchstart',e=>{let p=getPos(e);if(Math.hypot(p.x-branca.x,p.y-branca.y)<branca.r*5){arr=true;aim=p;e.preventDefault();}},{passive:false});
-canvas.addEventListener('touchmove',e=>{if(arr){aim=getPos(e);e.preventDefault();}},{passive:false});
-canvas.addEventListener('touchend',()=>{if(arr){let dx=branca.x-aim.x,dy=branca.y-aim.y;branca.vx=dx*0.30;branca.vy=dy*0.30;}arr=false;document.getElementById('fillH').style.width='0%';});
-
-// ADMIN LOGIC
-let clicks=0;
-document.getElementById('logoClick').addEventListener('click',()=>{
-  clicks++; if(clicks>=5){document.getElementById('admin').style.display='block';carregarAdmin();clicks=0;}
-  setTimeout(()=>clicks=0,3000);
-});
-async function carregarAdmin(){
-  try{
-    let users = await fetch('/api/usuarios').then(r=>r.json());
-    let vals = await fetch('/api/valores').then(r=>r.json());
-    let html=`<table class="tbl"><tr><th>Login</th><th>Nome</th><th>Saldo</th><th>Graduação</th><th>Nível</th><th>V/D</th><th>Ações</th></tr>`;
-    users.forEach(u=>{
-      html+=`<tr><td>${u.login}</td><td>${u.nome}</td><td>R$${u.saldo}</td><td><select onchange="trocarFaixa(${u.id},this.value)" style="background:#111;color:#fff;border:1px solid #333;padding:4px;border-radius:6px">${['Branca','Azul','Amarela','Laranja','Verde','Roxa','Marrom','Preta'].map(f=>`<option ${u.graduacao===f?'selected':''}>${f}</option>`).join('')}</select></td><td>${u.nivel}</td><td>${u.v}/${u.d}</td><td><button onclick="excluirUser(${u.id})" style="background:#c00;color:#fff;border:none;padding:5px 10px;border-radius:6px;cursor:pointer">Excluir</button></td></tr>`;
-    });
-    html+='</table>'; document.getElementById('adminUsers').innerHTML=html;
-    let hv=''; for(let k in vals){ hv+=`<div style="background:#111;border:1px solid #222;border-radius:12px;padding:10px;margin-bottom:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><b style="min-width:70px">${k}:</b> Entrada <input id="e_${k}" class="inp" value="${vals[k].entrada}"> Prêmio <input id="p_${k}" class="inp" value="${vals[k].premio}"></div>`; }
-    document.getElementById('adminValores').innerHTML=hv;
-  }catch(e){document.getElementById('adminUsers').innerHTML='<p style="color:#c66">Erro ao carregar API, verifique se server.js foi atualizado</p>';}
-}
-async function trocarFaixa(id,faixa){await fetch(`/api/usuarios/${id}/faixa`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({faixa})}); carregarAdmin();}
-async function excluirUser(id){if(!confirm('Excluir usuário?'))return; await fetch(`/api/usuarios/${id}/excluir`,{method:'POST'}); carregarAdmin();}
-async function salvarValores(){let vals={}; ['Branca','Azul','Amarela','Laranja','Verde','Roxa','Marrom','Preta'].forEach(k=>{ vals[k]={entrada:parseInt(document.getElementById('e_'+k).value)||0, premio:parseInt(document.getElementById('p_'+k).value)||0} }); await fetch('/api/valores',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(vals)}); alert('Valores salvos!');}
-
-if(location.hash==='#admin'){document.getElementById('admin').style.display='block'; setTimeout(carregarAdmin,500);}
-render();initMesa();loop();
+canvas.addEventListener('mousedown',e=>{let p=getPos(e);if(Math.hypot(p.x-branca.x,p.y-branca.y)<branca.r*4){arr=true;aim=p;}});canvas.addEventListener('mousemove',e=>{if(arr)aim=getPos(e);});canvas.addEventListener('mouseup',()=>{if(arr){let dx=branca.x-aim.x,dy=branca.y-aim.y;branca.vx=dx*0.32;branca.vy=dy*0.32;}arr=false;});
+canvas.addEventListener('touchstart',e=>{let p=getPos(e);if(Math.hypot(p.x-branca.x,p.y-branca.y)<branca.r*5){arr=true;aim=p;e.preventDefault();}},{passive:false});canvas.addEventListener('touchmove',e=>{if(arr){aim=getPos(e);e.preventDefault();}},{passive:false});canvas.addEventListener('touchend',()=>{if(arr){let dx=branca.x-aim.x,dy=branca.y-aim.y;branca.vx=dx*0.34;branca.vy=dy*0.34;}arr=false;});
+if(!loginAtual){}else{document.getElementById('loginScreen').style.display='none';document.getElementById('loading').style.display='flex';setTimeout(()=>{document.getElementById('loading').style.display='none';document.getElementById('menu').style.display='flex';},1500);}
+setInterval(()=>{if(document.getElementById('game').style.display==='flex'&&tempo>0){tempo--;let m=Math.floor(tempo/60),s=tempo%60;document.getElementById('tempo').innerText=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;}},1000);
+loop();
 </script>
 </body>
 </html>
