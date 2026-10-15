@@ -1,153 +1,54 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>AURUM SINUCA - Final</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@800&family=Inter:wght@600;800;900&display=swap" rel="stylesheet">
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box}body{background:#000;color:#fff;font-family:'Inter',sans-serif;overflow:hidden}
-#login{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#152915,#000 70%);z-index:100;padding:16px}
-.loginBox{width:100%;max-width:400px;background:linear-gradient(180deg,#1a1a1a,#000);border:1.5px solid #d4af37;border-radius:24px;padding:22px;text-align:center;box-shadow:0 0 60px rgba(212,175,55,.3)}
-.loginBox h1{font-family:'Cinzel',serif;font-size:42px;line-height:.9;background:linear-gradient(180deg,#fff8cc,#d4af37 50%,#8a6b1e);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.i{width:100%;padding:14px;border-radius:12px;border:1px solid #2a2a2a;background:#111;color:#fff;margin:6px 0}.wrap{position:relative}.eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:10px;border:1px solid #2a2a2a;background:#1d1d1d;color:#d4af37}
-.row{display:flex;gap:10px;margin-top:12px}.b{flex:1;padding:14px;border-radius:12px;border:none;font-weight:900}.b1{background:transparent;color:#fff;border:1px solid #333}.b2{background:linear-gradient(180deg,#f6de88,#d4af37);color:#000}#msg{margin-top:10px;font-size:12px;color:#ff6b6b}
-#app{position:fixed;inset:0;display:none;flex-direction:column;background:#050805}
-.topBar{height:56px;display:flex;gap:6px;padding:6px;background:linear-gradient(180deg,#1f1f1f,#0a0a0a);border-bottom:2px solid #d4af37}
-.chip{flex:1;background:#111;border:1px solid #222;border-radius:12px;padding:6px 8px;text-align:center;font-size:10px;color:#888}.chip b{color:#fff;display:block;font-size:12px}.chip.gold{border-color:#d4af37;color:#f6de88;background:linear-gradient(180deg,#231f10,#111)}
-.live{height:28px;background:#000;border-bottom:1px solid #111;display:flex;align-items:center;justify-content:center;font-size:10px;color:#d4af37;gap:10px}
-.content{flex:1;overflow-y:auto;padding:10px;padding-bottom:76px}.tab{display:none}.tab.active{display:block}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.card{border-radius:18px;border:2px solid #000;box-shadow:0 5px 0 #000;padding:12px;cursor:pointer;min-height:130px;display:flex;flex-direction:column;justify-content:space-between;color:#fff}
-.card h3{font-size:14px;font-weight:900}.prize{font-size:17px;font-weight:900;color:#ffeb3b}.c10{background:linear-gradient(180deg,#2a7a0a,#0f3d00)}.c50{background:linear-gradient(180deg,#b8860b,#5a3a00)}.c100{background:linear-gradient(180deg,#8a1a8a,#3a0a3a)}.cVIP{background:linear-gradient(180deg,#0a4a8a,#061a3a)}.cTreino{background:linear-gradient(180deg,#444,#111)}.cAmig{background:linear-gradient(180deg,#1a6a6a,#0a3333)}
-.profileCard{background:linear-gradient(180deg,#1e1e1e,#0a0a0a);border:1.5px solid rgba(212,175,55,.3);border-radius:18px;padding:14px}
-.levelBar{height:10px;background:#111;border-radius:10px;overflow:hidden;border:1px solid #222;margin:8px 0}.levelFill{height:100%;background:linear-gradient(90deg,#d4af37,#f6de88)}
-.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}.stat{background:#111;border:1px solid #222;border-radius:12px;padding:10px;text-align:center}.stat b{color:#d4af37;display:block;font-size:16px}
-.gradBox{display:flex;gap:6px;overflow-x:auto;padding:4px 0}.grad{min-width:68px;background:#111;border:1px solid #222;border-radius:12px;padding:8px;text-align:center;font-size:10px;opacity:.5}.grad.active{opacity:1;border-color:#d4af37;background:linear-gradient(180deg,#231f10,#111);color:#f6de88}
-.rTable{background:#111;border-radius:14px;overflow:hidden;border:1px solid #222}.rRow{display:flex;align-items:center;padding:10px 12px;border-bottom:1px solid #1a1a1a;font-size:12px}.rRow.me{background:linear-gradient(90deg,#231f10,#111);border-left:3px solid #d4af37}
-.rPos{width:30px;font-weight:900;color:#d4af37}.rName{flex:1}.rScore{font-weight:900;color:#ffeb3b}
-.bottomNav{position:fixed;bottom:0;left:0;right:0;height:68px;background:linear-gradient(180deg,#1a1a1a,#000);border-top:1.5px solid rgba(212,175,55,.3);display:flex;z-index:10}
-.navItem{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:9px;color:#666;cursor:pointer}.navItem.active{color:#d4af37}.navItem b{font-size:18px}
-#modalBet{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:80;padding:16px}
-.betBox{width:100%;max-width:360px;background:linear-gradient(180deg,#1e1e1e,#0a0a0a);border:2px solid #d4af37;border-radius:20px;padding:18px;text-align:center}
-.betBtns{display:flex;gap:10px;margin-top:14px}.betBtn{flex:1;padding:14px;border-radius:12px;border:none;font-weight:900}.cancel{background:transparent;color:#fff;border:1px solid #333}.confirm{background:linear-gradient(180deg,#f6de88,#d4af37);color:#000}
-#game{position:fixed;inset:0;display:none;flex-direction:column;background:#0a1426;z-index:90}
-#hud{height:50px;display:flex;gap:6px;padding:6px;background:linear-gradient(180deg,#1a1a1a,#0a0a0a);border-bottom:2px solid #d4af37;align-items:center}
-.hBox{flex:1;background:#000;border:1px solid #222;border-radius:10px;padding:5px;text-align:center;font-size:10px;color:#aaa}.hBox b{color:#d4af37;display:block;font-size:13px}
-#tableArea{flex:1;display:flex;align-items:center;justify-content:center;position:relative;padding:8px;background:radial-gradient(ellipse at center,#122040,#080e1e)}
-#sideTaco{position:absolute;left:8px;top:50%;transform:translateY(-50%);width:32px;height:260px;background:linear-gradient(180deg,#1e1e1e,#000);border-radius:18px;border:2px solid #333;display:flex;flex-direction:column;align-items:center;padding:4px;z-index:5}
-#bar{width:10px;flex:1;background:#111;border-radius:10px;overflow:hidden;display:flex;align-items:flex-end;border:1px solid #222}#fill{width:100%;height:0%;background:linear-gradient(180deg,#ff2a2a,#ffeb00,#00ff6a)}
-#taco{position:absolute;height:10px;border-radius:5px;transform-origin:left center;pointer-events:none;z-index:4}
-canvas{width:100%;max-width:920px;aspect-ratio:1.9/1;border-radius:16px;touch-action:none;border:10px solid #5a1a1a;box-shadow:0 0 0 3px #000,0 0 0 5px #d4af37,0 20px 60px rgba(0,0,0,.9)}
+#game{position:fixed;inset:0;display:none;flex-direction:column;background:#020a1a;z-index:90}
+#hud{height:50px;display:flex;gap:6px;padding:6px;background:#000;border-bottom:2px solid #d4af37;align-items:center}
+.hBox{flex:1;background:#111;border:1px solid #222;border-radius:10px;padding:4px;text-align:center;font-size:10px;color:#aaa}.hBox b{color:#d4af37;display:block;font-size:12px}
+#tableArea{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:4px;background:radial-gradient(ellipse at center,#0c1d36,#020814)}
+#canvasWrap{position:relative;width:100%;max-width:920px;aspect-ratio:1.9/1}
+canvas{width:100%;height:100%;border-radius:12px;touch-action:none;border:10px solid #3e1414;box-shadow:0 0 0 2px #000,0 0 0 5px #d4af37,0 20px 60px rgba(0,0,0,.9);display:block}
+#forceWrap{width:100%;max-width:920px;height:18px;background:#000;border:1px solid #222;border-radius:20px;margin-top:8px;padding:2px;display:flex;align-items:center}
+#barH{height:100%;width:100%;background:#111;border-radius:20px;overflow:hidden;position:relative}#fillH{height:100%;width:0%;background:linear-gradient(90deg,#00ff6a,#ffeb00,#ff2a2a);transition:width.05s}
+#taco{position:absolute;height:12px;border-radius:6px;transform-origin:left center;pointer-events:none;z-index:10;display:none;background:linear-gradient(90deg,#f5d9b0,#c89a6a 40%,#8a5a2e 80%,#111 100%);box-shadow:2px 2px 6px rgba(0,0,0,.6)}
 </style>
-</head>
-<body>
-
-<div id="login"><div class="loginBox"><h1>AURUM<br>SINUCA</h1><small style="letter-spacing:4px;color:#d4af37;font-size:9px">LIVE POOL CASINO</small>
-<div style="margin-top:16px"><input id="nome" class="i" placeholder="Apelido" value="Vander"><input id="loginI" class="i" placeholder="Login" value="vander"><div class="wrap"><input id="senha" class="i" type="password" placeholder="Senha" value="123456" style="padding-right:50px"><button type="button" class="eye" id="btnEye" onclick="toggleSenha()">👁️</button></div>
-<div class="row"><button type="button" class="b b1" onclick="cadastrar()">CADASTRAR</button><button type="button" class="b b2" onclick="entrar()">ENTRAR</button></div><div id="msg"></div><div style="margin-top:10px;font-size:9px;opacity:.4">🔒 PIX INSTANTÂNEO • 💎 1.247 ONLINE</div></div></div></div>
-
-<div id="app">
-<div class="topBar"><div class="chip">👤 <b id="pName">-</b>Lvl <span id="lvl">1</span></div><div class="chip">🏆 Win <b id="streak">0</b></div><div class="chip gold">💰 <b id="saldoTop">R$ 1000</b></div></div>
-<div class="live"><span>🟢 1.247 ONLINE</span><span id="liveWin">Vander ganhou R$50 agora!</span></div>
-<div class="content">
-
-<div id="tabInicio" class="tab active">
-<div class="grid">
-<div class="card c10" onclick="abrirAposta(10,18,'Mesa Bronze')"><div><h3>BRONZE</h3><small>1x1 • 2 vagas</small></div><div class="prize">R$18</div></div>
-<div class="card c50" onclick="abrirAposta(50,90,'Mesa Prata')"><div><h3>PRATA</h3><small>🔥 8 online</small></div><div class="prize">R$90</div></div>
-<div class="card cAmig" onclick="criarAmistoso()"><div><h3>AMISTOSO 1x1</h3><small>Online / Código</small></div><div class="prize">COM AMIGO</div></div>
-<div class="card cTreino" onclick="irJogoDireto('treino')"><div><h3>TREINO</h3><small>Grátis</small></div><div class="prize">GRÁTIS</div></div>
-</div>
-
-<h3 style="margin:16px 0 8px;font-family:'Cinzel';color:#d4af37">🏆 TORNEIOS POR FAIXA</h3>
-<div class="grid">
-<div class="card" style="background:linear-gradient(180deg,#ddd,#888);color:#000" onclick="abrirTorneio(['Branca','Azul','Amarela'],20,200,'Torneio Iniciante')"><div><h3>INICIANTE</h3><small>⚪🔵🟡<br>Branca/Azul/Amarela</small><div style="background:rgba(0,0,0,.15);border-radius:8px;padding:4px 8px;font-size:10px;margin-top:4px">Entrada R$20</div></div><div><div class="prize" style="color:#000">Prêmio R$200</div><button style="width:100%;margin-top:6px;padding:8px;border-radius:10px;border:none;background:#000;color:#fff;font-weight:900;font-size:11px">ENTRAR</button></div></div>
-<div class="card" style="background:linear-gradient(180deg,#ff8c00,#6a3a00)" onclick="abrirTorneio(['Laranja','Verde','Roxa'],50,500,'Torneio Intermediário')"><div><h3>INTERMEDIÁRIO</h3><small>🟠🟢🟣<br>Laranja/Verde/Roxa</small><div style="background:rgba(0,0,0,.4);border-radius:8px;padding:4px 8px;font-size:10px;margin-top:4px">Entrada R$50</div></div><div><div class="prize">Prêmio R$500</div><button style="width:100%;margin-top:6px;padding:8px;border-radius:10px;border:none;background:#fff;color:#000;font-weight:900;font-size:11px">ENTRAR</button></div></div>
-<div class="card" style="background:linear-gradient(180deg,#111,#000);border:2px solid #d4af37;grid-column:span 2" onclick="abrirTorneio(['Marrom','Preta'],100,1500,'Torneio Elite')"><div><h3>👑 TORNEIO ELITE - FAIXA PRETA</h3><small>🟤⚫ Só Marrom e Preta • Alta aposta • 16 jogadores</small><div style="background:rgba(212,175,55,.2);border-radius:8px;padding:4px 8px;font-size:10px;margin-top:4px">Entrada R$100</div></div><div><div class="prize" style="font-size:22px">Prêmio R$1.500</div><button style="width:100%;margin-top:6px;padding:10px;border-radius:10px;border:none;background:#d4af37;color:#000;font-weight:900;font-size:12px">👑 ENTRAR NO ELITE</button></div></div>
-</div>
-</div>
-
-<div id="tabRanking" class="tab"><h3>🏆 Ranking <select id="rankFilter" style="background:#111;color:#fff;border:1px solid #333;border-radius:6px;padding:2px"><option>Hoje</option><option>Semana</option><option>Mês</option></select></h3><div class="rTable" id="rTable" style="margin-top:8px"></div></div>
-
-<div id="tabPodio" class="tab">
-<h3 style="text-align:center">👑 Pódio - Dois Terceiros Lugares (Judô)</h3>
-<div style="display:flex;gap:6px;align-items:end;justify-content:center;height:170px;margin:16px 0">
-<div style="text-align:center"><div style="font-size:11px">🥈 João<br>R$1.2k</div><div style="width:76px;height:80px;background:linear-gradient(180deg,#c0c0c0,#888);border-radius:10px 10px 0 0;display:flex;align-items:center;justify-content:center;font-weight:900">2º</div></div>
-<div style="text-align:center"><div style="font-size:11px">👑 Vander<br>R$2.4k</div><div style="width:76px;height:120px;background:linear-gradient(180deg,#f6de88,#d4af37);border-radius:10px 10px 0 0;display:flex;align-items:center;justify-content:center;font-weight:900;color:#000">1º</div></div>
-<div style="text-align:center"><div style="font-size:11px">🥉 Carlos<br>R$890</div><div style="width:76px;height:50px;background:linear-gradient(180deg,#cd7f32,#8a4a1a);border-radius:10px 10px 0 0;display:flex;align-items:center;justify-content:center;font-size:12px">3º A</div></div>
-<div style="text-align:center"><div style="font-size:11px">🥉 Ana<br>R$870</div><div style="width:76px;height:50px;background:linear-gradient(180deg,#cd7f32,#8a4a1a);border-radius:10px 10px 0 0;display:flex;align-items:center;justify-content:center;font-size:12px">3º B</div></div>
-</div>
-<div class="rTable" id="podioList"></div>
-</div>
-
-<div id="tabMembro" class="tab">
-<div class="profileCard">
-<div style="display:flex;gap:12px;align-items:center"><div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(180deg,#d4af37,#8a6b1e);display:flex;align-items:center;justify-content:center;font-size:28px">👤</div><div><div style="font-weight:900;font-size:18px" id="mName">Vander</div><div style="font-size:11px;color:#d4af37">ID: <span id="mId">AUR-2847</span> • Graduação: <b id="mGrad">Branca</b></div></div></div>
-<div style="margin-top:12px"><div style="display:flex;justify-content:space-between;font-size:11px"><span>Nível <span id="mLvl">1</span></span><span><span id="mXp">35</span>/100 XP</span></div><div class="levelBar"><div class="levelFill" id="mFill" style="width:35%"></div></div></div>
-<div class="stats"><div class="stat"><b id="mWin">0</b>Vitórias</div><div class="stat"><b id="mLose">0</b>Derrotas</div><div class="stat"><b id="mRate">0%</b>Win Rate</div></div>
-<h4 style="font-size:12px;color:#d4af37;margin:14px 0 6px">🎖️ GRADUAÇÃO ESTILO JUDÔ</h4>
-<div class="gradBox">
-<div class="grad active" style="border-left:5px solid #fff">⚪<br>Branca</div>
-<div class="grad" style="border-left:5px solid #aaa">⚪<br>Cinza</div>
-<div class="grad" style="border-left:5px solid #0050ff">🔵<br>Azul</div>
-<div class="grad" style="border-left:5px solid #ffeb3b">🟡<br>Amarela</div>
-<div class="grad" style="border-left:5px solid #ff8800">🟠<br>Laranja</div>
-<div class="grad" style="border-left:5px solid #00aa00">🟢<br>Verde</div>
-<div class="grad" style="border-left:5px solid #800080">🟣<br>Roxa</div>
-<div class="grad" style="border-left:5px solid #8B4513">🟤<br>Marrom</div>
-<div class="grad" style="border-left:5px solid #000">⚫<br>Preta</div>
-<div class="grad" style="border-left:5px solid #c00">🔴<br>Vermelha</div>
-</div>
-<h4 style="font-size:12px;color:#d4af37;margin:14px 0 6px">📜 HISTÓRICO</h4><div class="rTable" id="historico"></div>
-</div>
-</div>
-
-<div id="tabTreino" class="tab"><div class="profileCard"><h3>🎱 Modo Treino</h3><p style="font-size:12px;color:#aaa;margin:8px 0">Treine grátis, sem aposta. Vale XP pra subir de faixa.</p><button class="b b2" style="width:100%;margin-top:10px" onclick="irJogoDireto('treino')">ENTRAR NO TREINO GRÁTIS</button><p style="font-size:11px;color:#888;margin-top:12px">• Segure e arraste a bola branca para mirar<br>• Barra lateral = força<br>• Troque cor da mesa e taco</p></div></div>
-
-</div>
-<div class="bottomNav">
-<div class="navItem active" onclick="switchTab('Inicio',this)"><b>🏠</b>Início</div>
-<div class="navItem" onclick="switchTab('Ranking',this)"><b>📊</b>Ranking</div>
-<div class="navItem" onclick="switchTab('Podio',this)"><b>👑</b>Pódio</div>
-<div class="navItem" onclick="switchTab('Membro',this)"><b>👤</b>Membro</div>
-<div class="navItem" onclick="switchTab('Treino',this)"><b>🎱</b>Treino</div>
-</div>
-</div>
-
-<div id="modalBet"><div class="betBox"><h2 id="betTitle">Mesa Bronze</h2><p style="font-size:11px;color:#aaa;margin:6px 0">Confirme a aposta</p><div style="background:#000;border-radius:12px;padding:12px;margin:12px 0"><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #222;font-size:13px"><span>Entrada</span><span id="betEntry">R$10</span></div><div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13px"><span>Prêmio</span><span id="betPrize" style="color:#00ff88">R$18</span></div><div style="display:flex;justify-content:space-between;padding:10px 0;font-weight:900;color:#ffeb3b;font-size:16px"><span>Você ganha</span><span id="betWin">R$18</span></div></div><div style="font-size:10px;color:#888;margin-bottom:6px">🔒 PIX • Saque instantâneo</div><div class="betBtns"><button class="betBtn cancel" onclick="fecharAposta()">CANCELAR</button><button class="betBtn confirm" onclick="confirmarAposta()">💎 PAGAR R$<span id="betPay">10</span></button></div></div></div>
 
 <div id="game">
 <div id="hud"><div class="hBox">Jogador <b id="hName">-</b></div><div class="hBox">Mesa <b id="hMesa">Azul</b></div><div class="hBox">Prêmio <b id="hPremio">R$18</b></div><button onclick="voltarApp()" style="margin-left:auto;padding:8px 12px;border-radius:10px;border:none;background:#fff;font-weight:900">☰ SAIR</button></div>
-<div id="tableArea"><div id="sideTaco"><div id="bar"><div id="fill"></div></div></div><div id="taco"></div><canvas id="mesa" width="1000" height="526"></canvas></div>
-<div style="display:flex;gap:8px;padding:8px;background:#080808;border-top:1px solid #1a1a1a;overflow-x:auto"><span style="font-size:9px;color:#d4af37;min-width:40px">MESA:</span><div style="width:28px;height:28px;border-radius:50%;background:#0f8bc0;border:2px solid #d4af37" onclick="trocarCor('#0f8bc0','#5a1a1a','Azul',this)"></div><div style="width:28px;height:28px;border-radius:50%;background:#178a27;border:2px solid #222" onclick="trocarCor('#178a27','#3d2210','Verde',this)"></div><div style="width:28px;height:28px;border-radius:50%;background:#c0392b;border:2px solid #222" onclick="trocarCor('#c0392b','#2c0a0a','Vermelho',this)"></div><div style="width:28px;height:28px;border-radius:50%;background:#6c3483;border:2px solid #222" onclick="trocarCor('#6c3483','#1a0a2e','Roxo',this)"></div><span style="font-size:9px;color:#d4af37;min-width:40px;margin-left:10px">TACO:</span><div style="width:44px;height:28px;border-radius:8px;background:linear-gradient(90deg,#e8c9a0,#8a5a2e);border:2px solid #d4af37" onclick="trocarTaco('linear-gradient(90deg,#e8c9a0,#8a5a2e)',this)"></div><div style="width:44px;height:28px;border-radius:8px;background:linear-gradient(90deg,#333,#000);border:2px solid #222" onclick="trocarTaco('linear-gradient(90deg,#333,#000)',this)"></div><div style="width:44px;height:28px;border-radius:8px;background:linear-gradient(90deg,#f6de88,#d4af37);border:2px solid #222" onclick="trocarTaco('linear-gradient(90deg,#f6de88,#d4af37)',this)"></div></div>
+<div id="tableArea"><div id="canvasWrap"><div id="taco"></div><canvas id="mesa" width="1000" height="526"></canvas></div><div id="forceWrap"><span style="font-size:9px;color:#d4af37;margin:0 6px">FORÇA</span><div id="barH"><div id="fillH"></div></div></div></div>
+<div style="display:flex;gap:8px;padding:8px;background:#080808;border-top:1px solid #1a1a1a;overflow-x:auto;justify-content:center"><div style="width:28px;height:28px;border-radius:50%;background:#0f8bc0;border:2px solid #d4af37" onclick="trocarCor('#0f8bc0','#3e1414','Azul',this)"></div><div style="width:28px;height:28px;border-radius:50%;background:#178a27;border:2px solid #222" onclick="trocarCor('#178a27','#2a1a0a','Verde',this)"></div><div style="width:28px;height:28px;border-radius:50%;background:#c0392b;border:2px solid #222" onclick="trocarCor('#c0392b','#2c0a0a','Vermelho',this)"></div><div style="width:28px;height:28px;border-radius:50%;background:#6c3483;border:2px solid #222" onclick="trocarCor('#6c3483','#1a0a2e','Roxo',this)"></div></div>
 </div>
 
 <script>
-let user=null,corFelt='#0f8bc0',corBorda='#5a1a1a',tacoStyle='linear-gradient(90deg,#e8c9a0,#8a5a2e)',apostaAtual=10,premioAtual=18;
-function toggleSenha(){let i=senha,btn=btnEye;if(i.type==='password'){i.type='text';btn.textContent='🙈';}else{i.type='password';btn.textContent='👁️';}}
-function msg(t,c){let e=document.getElementById('msg');e.style.color=c||'#ff6a6a';e.innerText=t;}
-async function cadastrar(){let l=loginI.value.trim(),s=senha.value.trim(),n=nome.value.trim()||l;if(!l||!s){msg('Preencha login e senha');return;}msg('Criando...','#d4af37');try{let r=await fetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({login:l,senha:s,nome:n})});let d=await r.json();if(!d.ok){msg(d.msg);return;}user=d.user;user.login=l.toLowerCase();logado();}catch{msg('Erro');}}
-async function entrar(){let l=loginI.value.trim(),s=senha.value.trim();if(!l||!s){msg('Preencha login e senha');return;}msg('Entrando...','#d4af37');try{let r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({login:l,senha:s})});let d=await r.json();if(!d.ok){msg(d.msg);return;}user=d.user;user.login=l.toLowerCase();logado();}catch{msg('Erro');}}
-function logado(){login.style.display='none';app.style.display='flex';pName.innerText=user.nome;mName.innerText=user.nome;mGrad.innerText=user.graduacao;mId.innerText='AUR-'+Math.floor(Math.random()*9000+1000);saldoTop.innerText='R$ '+user.saldo;hName.innerText=user.nome;atualizaRanking();}
-function switchTab(nome,el){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('tab'+nome).classList.add('active');document.querySelectorAll('.navItem').forEach(n=>n.classList.remove('active'));el.classList.add('active');}
-function atualizaRanking(){let mock=[{nome:'Vander',score:2450},{nome:'João Silva',score:1200},{nome:'Carlos Pro',score:890},{nome:'Ana Pool',score:870},{nome:'Marcos',score:760}];let html='';mock.forEach((u,i)=>{let cls=i==0?'me':'';html+=`<div class="rRow ${cls}"><div class="rPos">${i+1}º</div><div class="rName">${u.nome}</div><div class="rScore">R$${u.score}</div></div>`;});document.getElementById('rTable').innerHTML=html;document.getElementById('podioList').innerHTML=html;document.getElementById('historico').innerHTML=`<div class="rRow"><div class="rPos">✅</div><div class="rName">Vitória vs João - Bronze</div><div class="rScore">+R$18</div></div>`;}
-function abrirAposta(entry,prize,title){apostaAtual=entry;premioAtual=prize;document.getElementById('betTitle').innerText=title;document.getElementById('betEntry').innerText='R$'+entry;document.getElementById('betPrize').innerText='R$'+prize;document.getElementById('betWin').innerText='R$'+prize;document.getElementById('betPay').innerText=entry;document.getElementById('modalBet').style.display='flex';}
-function abrirTorneio(faixasPermitidas,entrada,premio,nome){if(!user){alert('Faça login!');return;}let minha=user.graduacao||'Branca';if(!faixasPermitidas.includes(minha)){alert('❌ NEGADO!\n\n'+nome+' é só para:\n'+faixasPermitidas.join(', ')+'\n\nSua faixa: '+minha+'\n\nSuba de nível vencendo!');return;}abrirAposta(entrada,premio,nome+' ('+faixasPermitidas.join('/')+')');}
-function fecharAposta(){document.getElementById('modalBet').style.display='none';}
-function confirmarAposta(){if(user.saldo<apostaAtual){alert('Saldo insuficiente!');return;}user.saldo-=apostaAtual;saldoTop.innerText='R$ '+user.saldo;document.getElementById('modalBet').style.display='none';app.style.display='none';game.style.display='flex';document.getElementById('hPremio').innerText='R$'+premioAtual;initMesa();loop();}
-function irJogoDireto(tipo){app.style.display='none';game.style.display='flex';document.getElementById('hPremio').innerText=tipo=='treino'?'Treino':'Amistoso';initMesa();loop();}
-function criarAmistoso(){let escolha=confirm('OK = Criar sala com código\nCancelar = Fila online');if(escolha){let codigo='AURUM-'+Math.floor(Math.random()*9000+1000);prompt('🔗 Sala criada! Copie e mande pro amigo:',codigo);irJogoDireto('amistoso');}else{alert('🔍 Entrando em fila amistosa online...');fetch('/api/fila/entrar',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({login:user.login})});irJogoDireto('amistoso');}}
-function voltarApp(){game.style.display='none';app.style.display='flex';}
-function trocarCor(felt,borda,nome,el){corFelt=felt;corBorda=borda;document.getElementById('hMesa').innerText=nome;el.parentElement.querySelectorAll('div').forEach(d=>{if(d.style.borderRadius==='50%')d.style.borderColor='#222'});el.style.borderColor='#d4af37';}
-function trocarTaco(style,el){tacoStyle=style;el.parentElement.querySelectorAll('div').forEach(d=>{if(d.style.width==='44px')d.style.borderColor='#222'});el.style.borderColor='#d4af37';document.getElementById('taco').style.background=style;}
-let canvas=mesa,ctx=canvas.getContext('2d'),bolas=[],branca,arr=false,aim={x:0,y:0},force=0;
-function initMesa(){bolas=[];let W=canvas.width,H=canvas.height,R=W*0.024;let sx=W*0.68,sy=H*0.5;let ordem=[1,14,2,15,3,10,8,9,11,4,12,5,13,6,7];let cores={1:'#ffcc00',2:'#0050ff',3:'#ff0000',4:'#800080',5:'#ff8800',6:'#00aa00',7:'#8b0000',8:'#000',9:'#ffcc00',10:'#0050ff',11:'#ff0000',12:'#800080',13:'#ff8800',14:'#00aa00',15:'#8b0000'};for(let i=0;i<15;i++){let row=Math.floor((Math.sqrt(8*i+1)-1)/2),col=i-row*(row+1)/2;let x=sx+row*R*2.12,y=sy+(col-row/2)*R*2.25;let n=ordem[i];bolas.push({x,y,vx:0,vy:0,r:R,num:n,cor:cores[n],stripe:n>8});}branca={x:W*0.26,y:H*0.5,vx:0,vy:0,r:R,cor:'#fff',num:0};bolas.push(branca);document.getElementById('taco').style.background=tacoStyle;}
-function drawTable(){let W=canvas.width,H=canvas.height;ctx.clearRect(0,0,W,H);ctx.fillStyle=corBorda;ctx.beginPath();ctx.roundRect(0,0,W,H,14);ctx.fill();ctx.fillStyle=corFelt;ctx.beginPath();ctx.roundRect(12,12,W-24,H-24,8);ctx.fill();let g=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,W*0.8);g.addColorStop(0,'rgba(255,255,255,.22)');g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.fillRect(12,12,W-24,H-24);[[0,0],[W/2,0],[W,0],[0,H],[W/2,H],[W,H]].forEach(p=>{ctx.beginPath();ctx.fillStyle='#0a0a0a';ctx.arc(p[0],p[1],20,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#d4af37';ctx.lineWidth=2;ctx.stroke();});}
-function drawBall(b){ctx.save();ctx.fillStyle='rgba(0,0,0,.35)';ctx.beginPath();ctx.ellipse(b.x,b.y+b.r*0.5,b.r*0.85,b.r*0.28,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.fillStyle=b.cor;ctx.shadowColor='rgba(0,0,0,.4)';ctx.shadowBlur=5;ctx.shadowOffsetY=3;ctx.arc(b.x,b.y,b.r,0,Math.PI*2);ctx.fill();ctx.shadowColor='transparent';if(b.num!==0){if(b.stripe){ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(b.x,b.y,b.r,0,Math.PI*2);ctx.fill();ctx.fillStyle=b.cor;ctx.fillRect(b.x-b.r,b.y-b.r*0.4,b.r*2,b.r*0.8);}ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(b.x,b.y,b.r*0.55,0,Math.PI*2);ctx.fill();ctx.fillStyle='#000';ctx.font=`900 ${b.r*0.6}px Inter`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(b.num,b.x,b.y+1);}ctx.fillStyle='rgba(255,255,255,.5)';ctx.beginPath();ctx.ellipse(b.x-b.r*0.25,b.y-b.r*0.25,b.r*0.25,b.r*0.16,-0.6,0,Math.PI*2);ctx.fill();ctx.restore();}
-function loop(){drawTable();if(arr){let dx=branca.x-aim.x,dy=branca.y-aim.y;force=Math.min(Math.hypot(dx,dy)/11,22);fill.style.height=(force/22*100)+'%';let ang=Math.atan2(dy,dx);let len=160+force*12;let t=document.getElementById('taco');t.style.display='block';t.style.left=(branca.x - Math.cos(ang)*18)+'px';t.style.top=(branca.y - Math.sin(ang)*18)+'px';t.style.width=len+'px';t.style.transform=`rotate(${ang}rad)`;t.style.background=tacoStyle;ctx.setLineDash([10,8]);ctx.strokeStyle='rgba(255,255,255,.9)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(branca.x,branca.y);ctx.lineTo(branca.x+dx*4,branca.y+dy*4);ctx.stroke();ctx.setLineDash([]);}else document.getElementById('taco').style.display='none';bolas.forEach(b=>{b.x+=b.vx;b.y+=b.vy;b.vx*=0.986;b.vy*=0.986;if(Math.abs(b.vx)<0.03)b.vx=0;if(Math.abs(b.vy)<0.03)b.vy=0;if(b.x<14+b.r||b.x>canvas.width-14-b.r){b.vx*=-0.75;b.x=Math.max(14+b.r,Math.min(canvas.width-14-b.r,b.x));}if(b.y<14+b.r||b.y>canvas.height-14-b.r){b.vy*=-0.75;b.y=Math.max(14+b.r,Math.min(canvas.height-14-b.r,b.y));}let pockets=[[0,0],[canvas.width/2,0],[canvas.width,0],[0,canvas.height],[canvas.width/2,canvas.height],[canvas.width,canvas.height]];for(let p of pockets){if(Math.hypot(b.x-p[0],b.y-p[1])<22){if(b===branca){b.x=canvas.width*0.26;b.y=canvas.height*0.5;b.vx=0;b.vy=0;}else{b.x=-100;}break;}}if(b.x>0)drawBall(b);});for(let i=0;i<bolas.length;i++)for(let j=i+1;j<bolas.length;j++){let a=bolas[i],c=bolas[j];if(a.x<0||c.x<0)continue;let dx=c.x-a.x,dy=c.y-a.y,d=Math.hypot(dx,dy);if(d<a.r+c.r&&d>0){let nx=dx/d,ny=dy/d,tx=-ny,ty=nx;let v1n=a.vx*nx+a.vy*ny,v1t=a.vx*tx+a.vy*ty,v2n=c.vx*nx+c.vy*ny,v2t=c.vx*tx+c.vy*ty;let n1=v2n,n2=v1n;a.vx=n1*nx+v1t*tx;a.vy=n1*ny+v1t*ty;c.vx=n2*nx+v2t*tx;c.vy=n2*ny+v2t*ty;let over=(a.r+c.r-d)/2;a.x-=nx*over;a.y-=ny*over;c.x+=nx*over;c.y+=ny*over;}}requestAnimationFrame(loop);}
+let canvas=document.getElementById('mesa'),ctx=canvas.getContext('2d'),bolas=[],branca,arr=false,aim={x:0,y:0},force=0,corFelt='#0f8bc0',corBorda='#3e1414';
+function initMesa(){bolas=[];let W=canvas.width,H=canvas.height,R=W*0.026;let sx=W*0.70,sy=H*0.5;let ordem=[1,14,2,15,3,10,8,9,11,4,12,5,13,6,7];let cores={1:'#ffcc00',2:'#0050ff',3:'#ff0000',4:'#800080',5:'#ff8800',6:'#00aa00',7:'#8b0000',8:'#000',9:'#ffcc00',10:'#0050ff',11:'#ff0000',12:'#800080',13:'#ff8800',14:'#00aa00',15:'#8b0000'};for(let i=0;i<15;i++){let row=Math.floor((Math.sqrt(8*i+1)-1)/2),col=i-row*(row+1)/2;let x=sx+row*R*2.08,y=sy+(col-row/2)*R*2.18;let n=ordem[i];bolas.push({x,y,vx:0,vy:0,r:R,num:n,cor:cores[n],stripe:n>8,caida:false,scale:1});}branca={x:W*0.25,y:H*0.5,vx:0,vy:0,r:R,cor:'#fff',num:0,caida:false,scale:1};bolas.push(branca);}
+
+function drawTable(){let W=canvas.width,H=canvas.height;ctx.clearRect(0,0,W,H);ctx.fillStyle=corBorda;ctx.beginPath();ctx.roundRect(0,0,W,H,12);ctx.fill();ctx.fillStyle=corFelt;ctx.beginPath();ctx.roundRect(14,14,W-28,H-28,6);ctx.fill();let g=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,W*0.9);g.addColorStop(0,'rgba(255,255,255,.18)');g.addColorStop(1,'rgba(0,0,0,.25)');ctx.fillStyle=g;ctx.fillRect(14,14,W-28,H-28);
+[[0,0],[W/2,0],[W,0],[0,H],[W/2,H],[W,H]].forEach(p=>{ctx.beginPath();ctx.fillStyle='#000';ctx.arc(p[0],p[1],26,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#1a1a1a';ctx.lineWidth=3;ctx.stroke();});}
+
+function drawBall(b){if(b.caida){b.scale*=0.88;if(b.scale<0.05)b.x=-100; }if(b.x<0)return;ctx.save();ctx.translate(b.x,b.y);ctx.scale(b.scale,b.scale);
+ctx.fillStyle='rgba(0,0,0,.4)';ctx.beginPath();ctx.ellipse(0,b.r*0.6,b.r*0.85,b.r*0.25,0,0,Math.PI*2);ctx.fill();
+let grad=ctx.createRadialGradient(-b.r*0.25,-b.r*0.3,b.r*0.1,0,0,b.r);grad.addColorStop(0,'#ffffff');grad.addColorStop(0.2,b.cor);grad.addColorStop(1,'#000000');
+ctx.fillStyle=b.num===0?'#fff':grad;ctx.beginPath();ctx.arc(0,0,b.r,0,Math.PI*2);ctx.fill();
+if(b.num!==0){if(b.stripe){ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(0,0,b.r,0,Math.PI*2);ctx.fill();ctx.fillStyle=b.cor;ctx.fillRect(-b.r,-b.r*0.42,b.r*2,b.r*0.84);}ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(0,0,b.r*0.52,0,Math.PI*2);ctx.fill();ctx.fillStyle='#000';ctx.font=`900 ${b.r*0.62}px Inter`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(b.num,0,1);}
+ctx.fillStyle='rgba(255,255,255,.7)';ctx.beginPath();ctx.ellipse(-b.r*0.28,-b.r*0.28,b.r*0.22,b.r*0.14,-0.7,0,Math.PI*2);ctx.fill();ctx.restore();}
+
+function loop(){drawTable();
+if(arr){let dx=branca.x-aim.x,dy=branca.y-aim.y;force=Math.min(Math.hypot(dx,dy)/10,28);document.getElementById('fillH').style.width=(force/28*100)+'%';
+let ang=Math.atan2(dy,dx);let len=180+force*9;let t=document.getElementById('taco');t.style.display='block';t.style.left=(branca.x)+'px';t.style.top=(branca.y-6)+'px';t.style.width=len+'px';t.style.transform=`rotate(${ang}rad)`;t.style.transformOrigin='0 50%';
+ctx.setLineDash([12,10]);ctx.strokeStyle='rgba(255,255,255,.85)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(branca.x,branca.y);ctx.lineTo(branca.x+dx*5,branca.y+dy*5);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(branca.x+dx*5,branca.y+dy*5,3,0,Math.PI*2);ctx.fill();
+}else{document.getElementById('taco').style.display='none';}
+bolas.forEach(b=>{if(b.x<0||b.caida)return;b.x+=b.vx;b.y+=b.vy;b.vx*=0.993;b.vy*=0.993;if(Math.abs(b.vx)<0.02)b.vx=0;if(Math.abs(b.vy)<0.02)b.vy=0;
+if(b.x<18+b.r||b.x>canvas.width-18-b.r){b.vx*=-0.82;b.x=Math.max(18+b.r,Math.min(canvas.width-18-b.r,b.x));}
+if(b.y<18+b.r||b.y>canvas.height-18-b.r){b.vy*=-0.82;b.y=Math.max(18+b.r,Math.min(canvas.height-18-b.r,b.y));}
+let pockets=[[0,0],[canvas.width/2,0],[canvas.width,0],[0,canvas.height],[canvas.width/2,canvas.height],[canvas.width,canvas.height]];
+for(let p of pockets){if(Math.hypot(b.x-p[0],b.y-p[1])<28){if(b===branca){setTimeout(()=>{b.x=canvas.width*0.25;b.y=canvas.height*0.5;b.vx=0;b.vy=0;b.caida=false;b.scale=1;},400);b.caida=true;}else{b.caida=true;}break;}}
+if(!b.caida)drawBall(b);else drawBall(b);});
+for(let i=0;i<bolas.length;i++)for(let j=i+1;j<bolas.length;j++){let a=bolas[i],c=bolas[j];if(a.x<0||c.x<0||a.caida||c.caida)continue;let dx=c.x-a.x,dy=c.y-a.y,d=Math.hypot(dx,dy);if(d<a.r+c.r&&d>0){let nx=dx/d,ny=dy/d,tx=-ny,ty=nx;let v1n=a.vx*nx+a.vy*ny,v1t=a.vx*tx+a.vy*ty,v2n=c.vx*nx+c.vy*ny,v2t=c.vx*tx+c.vy*ty;let n1=v2n,n2=v1n;a.vx=n1*nx+v1t*tx;a.vy=n1*ny+v1t*ty;c.vx=n2*nx+v2t*tx;c.vy=n2*ny+v2t*ty;let over=(a.r+c.r-d)/2;a.x-=nx*over;a.y-=ny*over;c.x+=nx*over;c.y+=ny*over;}}
+requestAnimationFrame(loop);}
 function getPos(e){let r=canvas.getBoundingClientRect();let p=e.touches?e.touches[0]:e;return{x:(p.clientX-r.left)*canvas.width/r.width,y:(p.clientY-r.top)*canvas.height/r.height};}
-canvas.addEventListener('mousedown',e=>{let p=getPos(e);if(Math.hypot(p.x-branca.x,p.y-branca.y)<branca.r*3.2){arr=true;aim=p;}});canvas.addEventListener('mousemove',e=>{if(arr)aim=getPos(e);});canvas.addEventListener('mouseup',()=>{if(arr){let dx=branca.x-aim.x,dy=branca.y-aim.y;branca.vx=dx*0.25;branca.vy=dy*0.25;}arr=false;force=0;fill.style.height='0%';});
-canvas.addEventListener('touchstart',e=>{let p=getPos(e);if(Math.hypot(p.x-branca.x,p.y-branca.y)<branca.r*4){arr=true;aim=p;e.preventDefault();}},{passive:false});canvas.addEventListener('touchmove',e=>{if(arr){aim=getPos(e);e.preventDefault();}},{passive:false});canvas.addEventListener('touchend',()=>{if(arr){let dx=branca.x-aim.x,dy=branca.y-aim.y;branca.vx=dx*0.27;branca.vy=dy*0.27;}arr=false;force=0;fill.style.height='0%';});
-</script>
-</body>
-</html>
+canvas.addEventListener('mousedown',e=>{let p=getPos(e);if(Math.hypot(p.x-branca.x,p.y-branca.y)<branca.r*4){arr=true;aim=p;}});canvas.addEventListener('mousemove',e=>{if(arr)aim=getPos(e);});
+canvas.addEventListener('mouseup',()=>{if(arr){let dx=branca.x-aim.x,dy=branca.y-aim.y;branca.vx=dx*0.28;branca.vy=dy*0.28;}arr=false;force=0;document.getElementById('fillH').style.width='0%';});
+canvas.addEventListener('touchstart',e=>{let p=getPos(e);if(Math.hypot(p.x-branca.x,p.y-branca.y)<branca.r*5){arr=true;aim=p;e.preventDefault();}},{passive:false});
+canvas.addEventListener('touchmove',e=>{if(arr){aim=getPos(e);e.preventDefault();}},{passive:false});
+canvas.addEventListener('touchend',()=>{if(arr){let dx=branca.x-aim.x,dy=branca.y-aim.y;branca.vx=dx*0.30;branca.vy=dy*0.30;}arr=false;force=0;document.getElementById('fillH').style.width='0%';});
+function trocarCor(felt,borda,nome,el){corFelt=felt;corBorda=borda;document.getElementById('hMesa').innerText=nome;el.parentElement.querySelectorAll('div').forEach(d=>d.style.borderColor='#222');el.style.borderColor='#d4af37';}
+function voltarApp(){document.getElementById('game').style.display='none';document.getElementById('app').style.display='flex';}
