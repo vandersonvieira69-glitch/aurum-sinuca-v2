@@ -1,73 +1,116 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>AURUM - Sinuca do Nordeste</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>AURUM SINUCA</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
 body{background:#050505;color:#fff;overflow:hidden}
-#app{position:fixed;inset:0;display:flex;flex-direction:column;background:radial-gradient(ellipse at top,#101a30,#050505 70%)}
-.header{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:#000;border-bottom:2px solid #d4af37}
-.logo{font-weight:900;letter-spacing:2px}.logo span{color:#d4af37}
+#app{position:fixed;inset:0;display:flex;flex-direction:column;background:radial-gradient(ellipse at top,#101a30,#050505 85%)}
+.header{height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:#000;border-bottom:2px solid #d4af37;position:relative;z-index:20}
+.logo{font-weight:900;letter-spacing:2px;font-size:20px;cursor:pointer;user-select:none}.logo span{color:#d4af37}
+.btnJogar{padding:10px 18px;border-radius:12px;border:none;background:#d4af37;font-weight:900;color:#000;cursor:pointer;position:relative;z-index:30}
 .tabs{display:flex;gap:6px;padding:10px;background:#0a0a0a;border-bottom:1px solid #1a1a1a}
-.tab{flex:1;padding:10px;border-radius:10px;border:1px solid #222;background:#111;color:#777;font-weight:700;font-size:12px;text-align:center}
-.tab.on{background:#d4af37;color:#000;border-color:#d4af37}
+.tab{flex:1;padding:11px;border-radius:11px;border:1px solid #222;background:#111;color:#666;font-weight:800;font-size:12px;text-align:center;cursor:pointer}.tab.on{background:#d4af37;color:#000;border-color:#d4af37}
 .screen{flex:1;overflow:auto;padding:12px}
-.card{background:linear-gradient(180deg,#151515,#0a0a0a);border:1px solid #222;border-radius:16px;padding:14px;margin-bottom:12px}
-.card h3{color:#d4af37;font-size:13px;margin-bottom:8px}
-.btn{width:100%;padding:14px;border-radius:14px;border:none;font-weight:900;background:linear-gradient(180deg,#f0d27a,#d4af37);color:#000;margin-top:8px}
-.faixa{padding:12px;border-radius:12px;border:1px solid #222;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.card{background:linear-gradient(180deg,#171717,#0c0c0c);border:1px solid #232323;border-radius:18px;padding:14px;margin-bottom:12px}
+.card h3{color:#d4af37;font-size:13px;margin-bottom:6px}.card p{font-size:12px;color:#888;line-height:1.4}
+.btn{width:100%;padding:14px;border-radius:14px;border:none;font-weight:900;background:linear-gradient(180deg,#f0d27a,#d4af37);color:#000;margin-top:10px;font-size:14px;cursor:pointer}
+.faixaLine{padding:10px;border-radius:12px;background:#111;border:1px solid #222;margin-top:8px;display:flex;justify-content:space-between;font-size:12px;color:#aaa}
 #game{position:fixed;inset:0;display:none;flex-direction:column;background:#020a1a;z-index:90}
 #hud{height:50px;display:flex;gap:6px;padding:6px;background:#000;border-bottom:2px solid #d4af37;align-items:center}
 .hBox{flex:1;background:#111;border:1px solid #222;border-radius:10px;padding:4px;text-align:center;font-size:10px;color:#aaa}.hBox b{color:#d4af37;display:block;font-size:12px}
-#tableArea{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:4px;background:radial-gradient(ellipse at center,#0c1d36,#020814)}
+#tableArea{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px;background:radial-gradient(ellipse at center,#0c1d36,#020814)}
 #canvasWrap{position:relative;width:100%;max-width:920px;aspect-ratio:1.9/1}
-canvas{width:100%;height:100%;border-radius:12px;touch-action:none;border:10px solid #3e1414;box-shadow:0 0 0 2px #000,0 0 0 5px #d4af37,0 20px 60px rgba(0,0,0,.9);display:block;background:#0f8bc0}
-#forceWrap{width:100%;max-width:920px;height:18px;background:#000;border:1px solid #222;border-radius:20px;margin-top:8px;padding:2px;display:flex;align-items:center}
-#barH{height:100%;width:100%;background:#111;border-radius:20px;overflow:hidden}#fillH{height:100%;width:0%;background:linear-gradient(90deg,#00ff6a,#ffeb00,#ff2a2a)}
+canvas{width:100%;height:100%;border-radius:12px;display:block;border:10px solid #3e1414;box-shadow:0 0 0 2px #000,0 0 0 5px #d4af37;touch-action:none;background:#0f8bc0}
+#forceWrap{width:100%;max-width:920px;height:20px;background:#000;border:1px solid #222;border-radius:20px;margin-top:8px;padding:2px;display:flex;align-items:center}
+#barH{height:100%;flex:1;background:#111;border-radius:20px;overflow:hidden}#fillH{height:100%;width:0%;background:linear-gradient(90deg,#00ff6a,#ffeb00,#ff2a2a)}
 #taco{position:absolute;height:12px;border-radius:6px;transform-origin:left center;pointer-events:none;z-index:10;display:none;background:linear-gradient(90deg,#f5d9b0,#c89a6a 40%,#8a5a2e 80%,#111 100%)}
+#admin{position:fixed;inset:0;background:#070707;z-index:200;display:none;padding:16px;overflow:auto}
+.tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}.tbl th{background:#111;color:#d4af37;padding:8px;text-align:left;border-bottom:1px solid #222}.tbl td{padding:8px;border-bottom:1px solid #1a1a1a}
+.inp{width:70px;background:#000;color:#fff;border:1px solid #333;border-radius:8px;padding:6px;text-align:center}
 </style>
 </head>
 <body>
 <div id="app">
-<div class="header"><div class="logo">AURUM <span>SINUCA</span></div><button onclick="abrirJogo()" style="padding:8px 14px;border-radius:10px;border:none;background:#d4af37;font-weight:900">JOGAR</button></div>
-<div class="tabs"><div class="tab on">INICIANTE</div><div class="tab">INTERM.</div><div class="tab">ELITE</div></div>
-<div class="screen">
-<div class="card"><h3>🎱 TORNEIO - FAIXA BRANCA</h3><p style="font-size:12px;color:#888">8 jogadores • Pódio com 2 terceiros • Prêmio R$18</p><button class="btn" onclick="abrirJogo()">ENTRAR NA MESA</button></div>
-<div class="card"><h3>🔵 TORNEIO - FAIXA AZUL</h3><p style="font-size:12px;color:#888">Prêmio R$25 • 3 partidas por faixa</p><button class="btn" onclick="abrirJogo()">ENTRAR NA MESA</button></div>
-<div class="card"><h3>🏆 RANKING - PÓDIO</h3><p style="font-size:11px;color:#aaa">1º Lugar • 2º Lugar • 3º Lugar (2 jogadores)</p></div>
-</div>
+<div class="header"><div class="logo" id="logoClick">AURUM <span>SINUCA</span></div><button class="btnJogar" onclick="abrirJogo()">JOGAR</button></div>
+<div class="tabs"><div class="tab on" onclick="trocaAba(0,this)">INICIANTE</div><div class="tab" onclick="trocaAba(1,this)">INTERM.</div><div class="tab" onclick="trocaAba(2,this)">ELITE</div></div>
+<div class="screen" id="screen"></div>
 </div>
 
 <div id="game">
-<div id="hud"><div class="hBox">Jogador <b id="hName">Nordestino</b></div><div class="hBox">Mesa <b id="hMesa">Azul</b></div><div class="hBox">Prêmio <b>R$18</b></div><button onclick="voltarApp()" style="margin-left:auto;padding:8px 12px;border-radius:10px;border:none;background:#fff;font-weight:900">☰ SAIR</button></div>
-<div id="tableArea"><div id="canvasWrap"><div id="taco"></div><canvas id="mesa" width="1000" height="526"></canvas></div><div id="forceWrap"><span style="font-size:9px;color:#d4af37;margin:0 6px">FORÇA</span><div id="barH"><div id="fillH"></div></div></div></div>
+<div id="hud"><div class="hBox">Jogador <b>Nordestino</b></div><div class="hBox">Mesa <b>Azul</b></div><div class="hBox">Faixa <b id="hFaixa">Branca</b></div><button onclick="voltarApp()" style="margin-left:auto;padding:8px 12px;border-radius:10px;border:none;background:#fff;font-weight:900;cursor:pointer">SAIR</button></div>
+<div id="tableArea"><div id="canvasWrap"><div id="taco"></div><canvas id="mesa" width="1000" height="526"></canvas></div><div id="forceWrap"><span style="font-size:9px;color:#d4af37;margin:0 8px">FORÇA</span><div id="barH"><div id="fillH"></div></div></div></div>
+</div>
+
+<div id="admin">
+<h2 style="color:#d4af37">👥 Usuários - Editar/Excluir/Login</h2>
+<div id="adminUsers">Carregando...</div>
+<h3 style="color:#d4af37;margin:20px 0 10px">⚙️ Valores Mesas - Por Faixa</h3>
+<div id="adminValores">Carregando...</div>
+<button class="btn" onclick="salvarValores()" style="background:#d4af37;color:#000">SALVAR VALORES</button>
+<button class="btn" onclick="document.getElementById('admin').style.display='none'" style="background:#222;color:#fff">FECHAR ADMIN</button>
+<p style="margin-top:12px;font-size:11px;color:#666">Acesso: 5 cliques no logo AURUM ou abra seu-site.com#admin</p>
 </div>
 
 <script>
-let canvas=document.getElementById('mesa'),ctx=canvas.getContext('2d'),bolas=[],branca,arr=false,aim={x:0,y:0},force=0;
-function abrirJogo(){document.getElementById('app').style.display='none';document.getElementById('game').style.display='flex';initMesa();}
-function voltarApp(){document.getElementById('game').style.display='none';document.getElementById('app').style.display='flex';}
-function initMesa(){bolas=[];let W=canvas.width,H=canvas.height,R=W*0.026;let sx=W*0.70,sy=H*0.5;let ordem=[1,14,2,15,3,10,8,9,11,4,12,5,13,6,7];let cores={1:'#ffcc00',2:'#0050ff',3:'#ff0000',4:'#800080',5:'#ff8800',6:'#00aa00',7:'#8b0000',8:'#000',9:'#ffcc00',10:'#0050ff',11:'#ff0000',12:'#800080',13:'#ff8800',14:'#00aa00',15:'#8b0000'};for(let i=0;i<15;i++){let row=Math.floor((Math.sqrt(8*i+1)-1)/2),col=i-row*(row+1)/2;let x=sx+row*R*2.08,y=sy+(col-row/2)*R*2.18;let n=ordem[i];bolas.push({x,y,vx:0,vy:0,r:R,num:n,cor:cores[n],stripe:n>8,caida:false,scale:1});}branca={x:W*0.25,y:H*0.5,vx:0,vy:0,r:R,cor:'#fff',num:0,caida:false,scale:1};bolas.push(branca);}
+let faixaAtual=localStorage.getItem('faixa')||'Branca';
+let torneios=[
+[{f:'Branca',premio:18,jog:8},{f:'Azul',premio:25,jog:8},{f:'Amarela',premio:32,jog:8}],
+[{f:'Laranja',premio:45,jog:12},{f:'Verde',premio:60,jog:12},{f:'Roxa',premio:80,jog:12}],
+[{f:'Marrom',premio:120,jog:16},{f:'Preta',premio:200,jog:16}]
+];
+let aba=0;
+function render(){let s=document.getElementById('screen');s.innerHTML='';torneios[aba].forEach(t=>{
+s.innerHTML+=`<div class="card"><h3>${t.f==='Branca'?'⚪':'🔵'} TORNEIO - FAIXA ${t.f.toUpperCase()}</h3><p>${t.jog} jogadores • Pódio com 2 terceiros lugares • Prêmio R$${t.premio}</p><div class="faixaLine"><span>Sua faixa: ${faixaAtual}</span><span style="color:${faixaAtual===t.f?'#0f0':'#666'}">${faixaAtual===t.f?'LIBERADO':'BLOQUEADO'}</span></div><button class="btn" onclick="abrirJogo('${t.f}')">ENTRAR NA MESA - R$${t.premio}</button></div>`});
+s.innerHTML+=`<div class="card"><h3>🏆 RANKING - PÓDIO OFICIAL</h3><p>1º Lugar • 2º Lugar • 3º Lugar (2 jogadores empatados no judô)</p><p style="margin-top:8px;color:#555">Precisa vencer 3 torneios da faixa para subir de graduação</p></div>`;
+document.getElementById('hFaixa').innerText=faixaAtual;
+}
+function trocaAba(i,el){aba=i;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));el.classList.add('on');render();}
+function abrirJogo(f){if(f)faixaAtual=f;document.getElementById('app').style.display='none';document.getElementById('game').style.display='flex';initMesa();}
+function voltarApp(){document.getElementById('game').style.display='none';document.getElementById('app').style.display='flex';render();}
 
-function drawTable(){let W=canvas.width,H=canvas.height;ctx.clearRect(0,0,W,H);ctx.fillStyle='#3e1414';ctx.fillRect(0,0,W,H);ctx.fillStyle='#0f8bc0';ctx.fillRect(14,14,W-28,H-28);
-[[0,0],[W/2,0],[W,0],[0,H],[W/2,H],[W,H]].forEach(p=>{ctx.beginPath();ctx.fillStyle='#000';ctx.arc(p[0],p[1],28,0,Math.PI*2);ctx.fill();});}
+let canvas=document.getElementById('mesa'),ctx=canvas.getContext('2d'),bolas=[],branca,arr=false,aim={x:0,y:0};
+function initMesa(){bolas=[];let W=canvas.width,H=canvas.height,R=W*0.026;let sx=W*0.70,sy=H*0.5;let ordem=[1,14,2,15,3,10,8,9,11,4,12,5,13,6,7];let cores={1:'#ffcc00',2:'#0050ff',3:'#ff0000',4:'#800080',5:'#ff8800',6:'#00aa00',7:'#8b0000',8:'#000',9:'#ffcc00',10:'#0050ff',11:'#ff0000',12:'#800080',13:'#ff8800',14:'#00aa00',15:'#8b0000'};for(let i=0;i<15;i++){let row=Math.floor((Math.sqrt(8*i+1)-1)/2);let col=i-row*(row+1)/2;let x=sx+row*R*2.08,y=sy+(col-row/2)*R*2.18;let n=ordem[i];bolas.push({x,y,vx:0,vy:0,r:R,num:n,cor:cores[n],stripe:n>8,caida:false,scale:1});}branca={x:W*0.25,y:H*0.5,vx:0,vy:0,r:R,cor:'#fff',num:0,caida:false,scale:1};bolas.push(branca);}
+function drawTable(){let W=canvas.width,H=canvas.height;ctx.fillStyle='#3e1414';ctx.fillRect(0,0,W,H);ctx.fillStyle='#0f8bc0';ctx.fillRect(12,12,W-24,H-24);[[0,0],[W/2,0],[W,0],[0,H],[W/2,H],[W,H]].forEach(p=>{ctx.beginPath();ctx.fillStyle='#000';ctx.arc(p[0],p[1],28,0,Math.PI*2);ctx.fill();});}
+function drawBall(b){if(b.x<0)return;ctx.save();ctx.translate(b.x,b.y);ctx.scale(b.scale,b.scale);ctx.fillStyle='rgba(0,0,0,.35)';ctx.beginPath();ctx.ellipse(0,b.r*0.55,b.r*0.85,b.r*0.22,0,0,Math.PI*2);ctx.fill();let g=ctx.createRadialGradient(-b.r*0.25,-b.r*0.3,b.r*0.1,0,0,b.r);g.addColorStop(0,'#fff');g.addColorStop(0.25,b.cor||'#fff');g.addColorStop(1,'#000');ctx.fillStyle=b.num===0?'#fff':g;ctx.beginPath();ctx.arc(0,0,b.r,0,Math.PI*2);ctx.fill();if(b.num!==0){if(b.stripe){ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(0,0,b.r,0,Math.PI*2);ctx.fill();ctx.fillStyle=b.cor;ctx.fillRect(-b.r,-b.r*0.42,b.r*2,b.r*0.84);}ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(0,0,b.r*0.52,0,Math.PI*2);ctx.fill();ctx.fillStyle='#000';ctx.font=`900 ${b.r*0.62}px Arial`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(b.num,0,1);}ctx.fillStyle='rgba(255,255,255,.75)';ctx.beginPath();ctx.ellipse(-b.r*0.28,-b.r*0.28,b.r*0.22,b.r*0.14,-0.7,0,Math.PI*2);ctx.fill();ctx.restore();}
+function loop(){drawTable();let t=document.getElementById('taco');
+if(arr){let dx=branca.x-aim.x,dy=branca.y-aim.y;let force=Math.min(Math.hypot(dx,dy)/10,28);document.getElementById('fillH').style.width=(force/28*100)+'%';let ang=Math.atan2(dy,dx);let len=180+force*9;t.style.display='block';t.style.left=branca.x+'px';t.style.top=(branca.y-6)+'px';t.style.width=len+'px';t.style.transform=`rotate(${ang}rad)`;ctx.setLineDash([12,10]);ctx.strokeStyle='rgba(255,255,255,.9)';ctx.lineWidth=1.3;ctx.beginPath();ctx.moveTo(branca.x,branca.y);ctx.lineTo(branca.x+dx*5,branca.y+dy*5);ctx.stroke();ctx.setLineDash([]);}else{t.style.display='none';}
+bolas.forEach(b=>{if(b.x<0)return;b.x+=b.vx;b.y+=b.vy;b.vx*=0.993;b.vy*=0.993;if(Math.abs(b.vx)<0.02)b.vx=0;if(Math.abs(b.vy)<0.02)b.vy=0;if(b.x<14+b.r||b.x>canvas.width-14-b.r){b.vx*=-0.82;b.x=Math.max(14+b.r,Math.min(canvas.width-14-b.r,b.x));}if(b.y<14+b.r||b.y>canvas.height-14-b.r){b.vy*=-0.82;b.y=Math.max(14+b.r,Math.min(canvas.height-14-b.r,b.y));}let pockets=[[0,0],[canvas.width/2,0],[canvas.width,0],[0,canvas.height],[canvas.width/2,canvas.height],[canvas.width,canvas.height]];for(let p of pockets){if(Math.hypot(b.x-p[0],b.y-p[1])<28){if(b===branca){setTimeout(()=>{b.x=canvas.width*0.25;b.y=canvas.height*0.5;b.vx=0;b.vy=0;b.caida=false;b.scale=1;},400);b.caida=true;}else{b.caida=true;}}}if(b.caida)b.scale*=0.88;if(b.scale<0.06)b.x=-100;if(b.x>=0)drawBall(b);});
+for(let i=0;i<bolas.length;i++)for(let j=i+1;j<bolas.length;j++){let a=bolas[i],c=bolas[j];if(a.x<0||c.x<0||a.caida&&a.scale<0.5||c.caida&&c.scale<0.5)continue;let dx=c.x-a.x,dy=c.y-a.y,d=Math.hypot(dx,dy);if(d<a.r+c.r&&d>0){let nx=dx/d,ny=dy/d,tx=-ny,ty=nx;let v1n=a.vx*nx+a.vy*ny,v1t=a.vx*tx+a.vy*ty,v2n=c.vx*nx+c.vy*ny,v2t=c.vx*tx+c.vy*ty;let n1=v2n,n2=v1n;a.vx=n1*nx+v1t*tx;a.vy=n1*ny+v1t*ty;c.vx=n2*nx+v2t*tx;c.vy=n2*ny+v2t*ty;let over=(a.r+c.r-d)/2;a.x-=nx*over;a.y-=ny*over;c.x+=nx*over;c.y+=ny*over;}}requestAnimationFrame(loop);}
+function getPos(e){let r=canvas.getBoundingClientRect();let p=e.touches?e.touches[0]:e;return{x:(p.clientX-r.left)*canvas.width/r.width,y:(p.clientY-r.top)*canvas.height/r.height};}
+canvas.addEventListener('mousedown',e=>{let p=getPos(e);if(Math.hypot(p.x-branca.x,p.y-branca.y)<branca.r*4){arr=true;aim=p;}});canvas.addEventListener('mousemove',e=>{if(arr)aim=getPos(e);});
+canvas.addEventListener('mouseup',()=>{if(arr){let dx=branca.x-aim.x,dy=branca.y-aim.y;branca.vx=dx*0.28;branca.vy=dy*0.28;}arr=false;document.getElementById('fillH').style.width='0%';});
+canvas.addEventListener('touchstart',e=>{let p=getPos(e);if(Math.hypot(p.x-branca.x,p.y-branca.y)<branca.r*5){arr=true;aim=p;e.preventDefault();}},{passive:false});
+canvas.addEventListener('touchmove',e=>{if(arr){aim=getPos(e);e.preventDefault();}},{passive:false});
+canvas.addEventListener('touchend',()=>{if(arr){let dx=branca.x-aim.x,dy=branca.y-aim.y;branca.vx=dx*0.30;branca.vy=dy*0.30;}arr=false;document.getElementById('fillH').style.width='0%';});
 
-function drawBall(b){if(b.scale<0.05){b.x=-100;return}ctx.save();ctx.translate(b.x,b.y);ctx.scale(b.scale,b.scale);
-ctx.fillStyle='rgba(0,0,0,.4)';ctx.beginPath();ctx.ellipse(0,b.r*0.6,b.r*0.85,b.r*0.25,0,0,Math.PI*2);ctx.fill();
-let grad=ctx.createRadialGradient(-b.r*0.25,-b.r*0.3,b.r*0.1,0,0,b.r);grad.addColorStop(0,'#ffffff');grad.addColorStop(0.2,b.cor);grad.addColorStop(1,'#000000');
-ctx.fillStyle=b.num===0?'#fff':grad;ctx.beginPath();ctx.arc(0,0,b.r,0,Math.PI*2);ctx.fill();
-if(b.num!==0){if(b.stripe){ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(0,0,b.r,0,Math.PI*2);ctx.fill();ctx.fillStyle=b.cor;ctx.fillRect(-b.r,-b.r*0.42,b.r*2,b.r*0.84);}ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(0,0,b.r*0.52,0,Math.PI*2);ctx.fill();ctx.fillStyle='#000';ctx.font=`900 ${b.r*0.62}px Arial`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(b.num,0,1);}
-ctx.fillStyle='rgba(255,255,255,.7)';ctx.beginPath();ctx.ellipse(-b.r*0.28,-b.r*0.28,b.r*0.22,b.r*0.14,-0.7,0,Math.PI*2);ctx.fill();ctx.restore();}
+// ADMIN LOGIC
+let clicks=0;
+document.getElementById('logoClick').addEventListener('click',()=>{
+  clicks++; if(clicks>=5){document.getElementById('admin').style.display='block';carregarAdmin();clicks=0;}
+  setTimeout(()=>clicks=0,3000);
+});
+async function carregarAdmin(){
+  try{
+    let users = await fetch('/api/usuarios').then(r=>r.json());
+    let vals = await fetch('/api/valores').then(r=>r.json());
+    let html=`<table class="tbl"><tr><th>Login</th><th>Nome</th><th>Saldo</th><th>Graduação</th><th>Nível</th><th>V/D</th><th>Ações</th></tr>`;
+    users.forEach(u=>{
+      html+=`<tr><td>${u.login}</td><td>${u.nome}</td><td>R$${u.saldo}</td><td><select onchange="trocarFaixa(${u.id},this.value)" style="background:#111;color:#fff;border:1px solid #333;padding:4px;border-radius:6px">${['Branca','Azul','Amarela','Laranja','Verde','Roxa','Marrom','Preta'].map(f=>`<option ${u.graduacao===f?'selected':''}>${f}</option>`).join('')}</select></td><td>${u.nivel}</td><td>${u.v}/${u.d}</td><td><button onclick="excluirUser(${u.id})" style="background:#c00;color:#fff;border:none;padding:5px 10px;border-radius:6px;cursor:pointer">Excluir</button></td></tr>`;
+    });
+    html+='</table>'; document.getElementById('adminUsers').innerHTML=html;
+    let hv=''; for(let k in vals){ hv+=`<div style="background:#111;border:1px solid #222;border-radius:12px;padding:10px;margin-bottom:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><b style="min-width:70px">${k}:</b> Entrada <input id="e_${k}" class="inp" value="${vals[k].entrada}"> Prêmio <input id="p_${k}" class="inp" value="${vals[k].premio}"></div>`; }
+    document.getElementById('adminValores').innerHTML=hv;
+  }catch(e){document.getElementById('adminUsers').innerHTML='<p style="color:#c66">Erro ao carregar API, verifique se server.js foi atualizado</p>';}
+}
+async function trocarFaixa(id,faixa){await fetch(`/api/usuarios/${id}/faixa`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({faixa})}); carregarAdmin();}
+async function excluirUser(id){if(!confirm('Excluir usuário?'))return; await fetch(`/api/usuarios/${id}/excluir`,{method:'POST'}); carregarAdmin();}
+async function salvarValores(){let vals={}; ['Branca','Azul','Amarela','Laranja','Verde','Roxa','Marrom','Preta'].forEach(k=>{ vals[k]={entrada:parseInt(document.getElementById('e_'+k).value)||0, premio:parseInt(document.getElementById('p_'+k).value)||0} }); await fetch('/api/valores',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(vals)}); alert('Valores salvos!');}
 
-function loop(){drawTable();
-if(arr){let dx=branca.x-aim.x,dy=branca.y-aim.y;force=Math.min(Math.hypot(dx,dy)/10,28);document.getElementById('fillH').style.width=(force/28*100)+'%';
-let ang=Math.atan2(dy,dx);let len=180+force*9;let t=document.getElementById('taco');t.style.display='block';t.style.left=(branca.x)+'px';t.style.top=(branca.y-6)+'px';t.style.width=len+'px';t.style.transform=`rotate(${ang}rad)`;t.style.transformOrigin='0 50%';
-ctx.setLineDash([12,10]);ctx.strokeStyle='rgba(255,255,255,.85)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(branca.x,branca.y);ctx.lineTo(branca.x+dx*5,branca.y+dy*5);ctx.stroke();ctx.setLineDash([]);}else{document.getElementById('taco').style.display='none';}
-bolas.forEach(b=>{if(b.x<0)return;b.x+=b.vx;b.y+=b.vy;b.vx*=0.993;b.vy*=0.993;if(Math.abs(b.vx)<0.02)b.vx=0;if(Math.abs(b.vy)<0.02)b.vy=0;
-if(b.x<18+b.r||b.x>canvas.width-18-b.r){b.vx*=-0.82;b.x=Math.max(18+b.r,Math.min(canvas.width-18-b.r,b.x));}
-if(b.y<18+b.r||b.y>canvas.height-18-b.r){b.vy*=-0.82;b.y=Math.max(18+b.r,Math.min(canvas.height-18-b.r,b.y));}
-let pockets=[[0,0],[canvas.width/2,0],[canvas.width,0],[0,canvas.height],[canvas.width/2,canvas.height],[canvas.width,canvas.height]];
-for(let p of pockets){if(Math.hypot(b.x-p[0],b.y-p[1])<28){if(b===branca){setTimeout(()=>{b.x=canvas.width*0.25;b.y=canvas.height*0.5;b.vx=0;b.vy=0;b.caida=false;b.scale=1;},400);b.caida=true;b.scale=0.9;}else{b.caida=true;}}}
-if(b.caida)b.scale*=0.88;if(b.x>=0)drawBall(b);});
-for
+if(location.hash==='#admin'){document.getElementById('admin').style.display='block'; setTimeout(carregarAdmin,500);}
+render();initMesa();loop();
+</script>
+</body>
+</html>
