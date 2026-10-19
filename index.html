@@ -1,5 +1,184 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURUM SINUCA - Oficial</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:radial-gradient(#1a1a1a,#000);color:#fff;overflow:hidden;height:100vh}
+#loginScreen{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:9999}
+.login-box{background:#111;border:2px solid #d4af37;padding:30px;border-radius:20px;width:90%;max-width:380px;text-align:center;box-shadow:0 0 30px #d4af3755}
+.login-box h1{color:#d4af37;font-size:28px;margin-bottom:5px;letter-spacing:2px}
+.login-box input{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:1px solid #333;background:#222;color:#fff}
+.login-box button{width:100%;padding:12px;margin-top:10px;background:linear-gradient(#d4af37,#b8960c);border:none;border-radius:10px;font-weight:bold;cursor:pointer;color:#000;font-size:16px}
+#gameHeader{display:flex;justify-content:space-between;padding:12px 20px;background:#0f0f0f;border-bottom:1px solid #d4af3733}
+#gameCanvasWrap{display:flex;align-items:center;justify-content:center;height:calc(100vh - 60px)}
+canvas{background:radial-gradient(ellipse at center,#2d8a4e 0%,#1a5c32 70%);border-radius:50%;box-shadow:0 0 0 18px #3d2817,0 0 0 22px #d4af37,0 20px 50px #000;cursor:none}
+#controls{position:fixed;bottom:15px;left:50%;transform:translateX(-50%);background:#111a;padding:10px 20px;border-radius:30px;border:1px solid #d4af37;display:flex;gap:15px;align-items:center}
+.podio{position:fixed;right:15px;top:70px;background:#111c;border:1px solid #d4af37;padding:12px;border-radius:12px;min-width:160px}
+.podio h3{color:#d4af37;font-size:14px;margin-bottom:8px;text-align:center}
+</style>
+</head>
+<body>
+
+<div id="loginScreen">
+  <div class="login-box">
+    <h1>AURUM SINUCA</h1>
+    <p style="color:#888;margin-bottom:15px">Torneio Oficial</p>
+    <input id="user" placeholder="Seu nome">
+    <input id="pass" type="password" placeholder="Senha">
+    <button onclick="entrar()">ENTRAR / CADASTRAR</button>
+    <p style="font-size:11px;color:#555;margin-top:10px">Seu progresso fica salvo</p>
+  </div>
+</div>
+
+<div id="gameHeader">
+  <div>🎱 <b id="playerName">Jogador</b> | Nível: <span id="level">1</span></div>
+  <div>💰 R$ <span id="money">120,00</span> | 🏆 Pódio</div>
+</div>
+
+<div class="podio">
+  <h3>🏆 PÓDIO AO VIVO</h3>
+  <div id="podioList" style="font-size:12px;line-height:20px">
+    1º Vanderson - 1.200 pts<br>
+    2º João - 980 pts<br>
+    3º Você - 0 pts
+  </div>
+</div>
+
+<div id="gameCanvasWrap">
+  <canvas id="game" width="800" height="450"></canvas>
+</div>
+
+<div id="controls">
+  <span>Força:</span><input type="range" id="power" min="1" max="30" value="15">
+  <button onclick="mirar()" style="padding:6px 14px;border-radius:20px;border:none;background:#d4af37;font-weight:bold;cursor:pointer">TACADA</button>
+  <span id="msg" style="font-size:12px;color:#d4af37">Mire com o mouse</span>
+</div>
+
+<script>
+const canvas=document.getElementById('game'),ctx=canvas.getContext('2d');
+let player=localStorage.getItem('aurum_player')||'';
+if(player){document.getElementById('loginScreen').style.display='none';document.getElementById('playerName').innerText=player;}
+
+function entrar(){
+  const u=document.getElementById('user').value;
+  const p=document.getElementById('pass').value;
+  if(!u||!p){alert('Digite nome e senha');return}
+  localStorage.setItem('aurum_player',u);
+  document.getElementById('playerName').innerText=u;
+  document.getElementById('loginScreen').style.display='none';
+}
+
+let mouse={x:400,y:225};
+canvas.addEventListener('mousemove',e=>{
+  const r=canvas.getBoundingClientRect();
+  mouse.x=(e.clientX-r.left)*(canvas.width/r.width);
+  mouse.y=(e.clientY-r.top)*(canvas.height/r.height);
+});
+
+let balls=[
+  {x:200,y:225,vx:0,vy:0,r:14,color:'#fff',isWhite:true},
+  {x:500,y:225,vx:0,vy:0,r:13,color:'#ff0000'},
+  {x:524,y:212,vx:0,vy:0,r:13,color:'#ffff00'},
+  {x:524,y:238,vx:0,vy:0,r:13,color:'#0000ff'},
+  {x:548,y:199,vx:0,vy:0,r:13,color:'#ff00ff'},
+  {x:548,y:225,vx:0,vy:0,r:13,color:'#00ff00'},
+  {x:548,y:251,vx:0,vy:0,r:13,color:'#000000'},
+];
+
+function drawTable(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  // taco colado na branca
+  const white=balls[0];
+  const angle=Math.atan2(mouse.y-white.y,mouse.x-white.x);
+  const dist=35;
+  const tx=white.x - Math.cos(angle)*dist;
+  const ty=white.y - Math.sin(angle)*dist;
+  
+  ctx.save();
+  ctx.translate(tx,ty);
+  ctx.rotate(angle);
+  ctx.fillStyle='#8B4513';
+  ctx.fillRect(-200, -3, 200, 6);
+  ctx.fillStyle='#d4af37';
+  ctx.fillRect(-210, -4, 10, 8);
+  ctx.restore();
+
+  // linha de mira
+  ctx.setLineDash([6,6]);
+  ctx.strokeStyle='#fff5';
+  ctx.beginPath();
+  ctx.moveTo(white.x,white.y);
+  ctx.lineTo(mouse.x,mouse.y);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  
+  // bolas
+  balls.forEach(b=>{
+    ctx.beginPath();
+    ctx.arc(b.x,b.y,b.r,0,Math.PI*2);
+    ctx.fillStyle=b.color;
+    ctx.fill();
+    ctx.strokeStyle='#0008';
+    ctx.stroke();
+    if(b.isWhite){
+      ctx.fillStyle='#000';
+      ctx.beginPath();ctx.arc(b.x+3,b.y-3,2,0,Math.PI*2);ctx.fill();
+    }
+  });
+}
+
+function update(){
+  balls.forEach(b=>{
+    b.x+=b.vx; b.y+=b.vy;
+    b.vx*=0.985; b.vy*=0.985;
+    if(Math.abs(b.vx)<0.1)b.vx=0;
+    if(Math.abs(b.vy)<0.1)b.vy=0;
+    
+    // borda oval
+    const dx=(b.x-400)/380, dy=(b.y-225)/205;
+    if(dx*dx+dy*dy>1){
+      const ang=Math.atan2(b.y-225,b.x-400);
+      b.x=400+Math.cos(ang)*375;
+      b.y=225+Math.sin(ang)*200;
+      const speed=Math.hypot(b.vx,b.vy);
+      b.vx=-Math.cos(ang)*speed*0.8;
+      b.vy=-Math.sin(ang)*speed*0.8;
+    }
+  });
+  // colisão simples
+  for(let i=0;i<balls.length;i++) for(let j=i+1;j<balls.length;j++){
+    let a=balls[i],b2=balls[j];
+    let dx=b2.x-a.x, dy=b2.y-a.y, d=Math.hypot(dx,dy);
+    if(d<a.r+b2.r){
+      let nx=dx/d, ny=dy/d;
+      let p=2*(a.vx*nx+a.vy*ny - b2.vx*nx - b2.vy*ny)/(2);
+      a.vx-=p*nx; a.vy-=p*ny; b2.vx+=p*nx; b2.vy+=p*ny;
+      let overlap=(a.r+b2.r-d)/2;
+      a.x-=nx*overlap; a.y-=ny*overlap; b2.x+=nx*overlap; b2.y+=ny*overlap;
+    }
+  }
+}
+
+function mirar(){
+  const white=balls[0];
+  const angle=Math.atan2(mouse.y-white.y,mouse.x-white.x);
+  const power=document.getElementById('power').value;
+  white.vx=Math.cos(angle)*power*0.8;
+  white.vy=Math.sin(angle)*power*0.8;
+  document.getElementById('msg').innerText='Boa tacada!';
+  setTimeout(()=>document.getElementById('msg').innerText='Mire com o mouse',800);
+}
+
+function loop(){update();drawTable();requestAnimationFrame(loop);}
+loop();
+canvas.addEventListener('click',mirar);
+</script>
+</body>
+</html> lang="pt-BR">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
